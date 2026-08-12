@@ -85,7 +85,7 @@ button:disabled { cursor: not-allowed; opacity: 0.62; }
 .search-spinner { width: 14px; height: 14px; border: 2px solid #d2dfd7; border-top-color: var(--ink); border-radius: 50%; animation: spin 0.75s linear infinite; }
 
 .search-results { position: absolute; z-index: 2; top: calc(100% + 8px); right: 0; left: 0; overflow: hidden; max-height: 310px; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: var(--shadow-light); }
-.search-result { display: grid; grid-template-columns: 30px 1fr auto; align-items: center; width: 100%; gap: 9px; padding: 11px 12px; border: 0; border-bottom: 1px solid #edf1ee; color: var(--ink); background: #fff; text-align: left; }
+.search-result { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; width: 100%; gap: 12px; padding: 12px 14px; border: 0; border-bottom: 1px solid #edf1ee; color: var(--ink); background: #fff; text-align: left; min-height:48px; }
 .search-result:last-child { border-bottom: 0; }
 .search-result:hover, .search-result:focus-visible { outline: 0; background: #f2f7f3; }
 .result-glyph { display: grid; width: 29px; height: 29px; place-items: center; border-radius: 9px; color: var(--ink); background: #e7f0eb; font-size: 0.76rem; font-weight: 800; }
@@ -109,7 +109,7 @@ button:disabled { cursor: not-allowed; opacity: 0.62; }
 .panel-state.is-error p { margin: 0; }
 .welcome-card h1, .place-card h1 { margin: 0; color: var(--ink); font-size: 1.27rem; line-height: 1.2; letter-spacing: -0.025em; }
 .welcome-card p:not(.eyebrow), .place-card > p:not(.eyebrow) { margin: 9px 0 0; color: var(--muted); font-size: 0.84rem; line-height: 1.52; }
-.secondary-button, .primary-button { min-height: 41px; padding: 0 14px; border-radius: 10px; font-size: 0.8rem; font-weight: 800; transition: transform 150ms ease, background 150ms ease, box-shadow 150ms ease; }
+.secondary-button, .primary-button { min-height: 48px; padding: 0 14px; border-radius: 12px; font-size: 0.9rem; font-weight: 800; transition: transform 150ms ease, background 150ms ease, box-shadow 150ms ease; }
 .primary-button { width: 100%; border: 1px solid var(--ink); color: #fff; background: var(--ink); box-shadow: 0 5px 12px rgba(21, 62, 53, 0.17); }
 .primary-button:hover:not(:disabled) { background: #0d3028; transform: translateY(-1px); }
 .secondary-button { margin-top: 14px; border: 1px solid #b6cabc; color: var(--ink); background: #fff; }
@@ -137,11 +137,21 @@ button:disabled { cursor: not-allowed; opacity: 0.62; }
 .quiet-button:hover { color: var(--danger); }
 .route-selectors { margin: 14px 0 12px; }
 .route-select-label { display: grid; gap: 5px; color: #657970; font-size: 0.69rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; }
-.route-select-label select, .indoor-guide-dialog select { width: 100%; min-height: 39px; padding: 0 9px; border: 1px solid var(--line); border-radius: 9px; outline: 0; color: var(--ink); background: #fbfcfa; font-size: 0.83rem; font-weight: 600; }
+.route-select-label select, .indoor-guide-dialog select { width: 100%; min-height: 48px; padding: 0 12px; border: 1px solid var(--line); border-radius: 12px; outline: 0; color: var(--ink); background: #fbfcfa; font-size: 0.92rem; font-weight: 700; }
 .route-select-label select:focus, .indoor-guide-dialog select:focus { border-color: #75a692; box-shadow: 0 0 0 3px rgba(87, 140, 119, 0.12); }
 .route-connector { display: block; height: 18px; padding-left: 12px; color: var(--accent-deep); line-height: 18px; }
 .route-progress { min-height: 18px; margin: 10px 0 0; color: var(--ink-soft); font-size: 0.75rem; font-weight: 600; }
 .route-progress.is-error { color: var(--danger); }
+
+/* Quick From/To selection preview */
+.route-quick-selection { display: flex; gap: 10px; margin-bottom: 10px; }
+.quick-card { flex: 1; text-align: left; padding: 10px; border-radius: 12px; background: #fff; border: 1px solid var(--line); min-height: 56px; display: flex; flex-direction: column; justify-content: center; }
+.quick-label { color: #6f8a7f; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; }
+.quick-value { margin-top: 4px; color: var(--ink); font-size: 0.95rem; font-weight: 800; }
+
+/* When search overlay is open push floating controls above it */
+body.search-open .floating-controls { bottom: calc(12px + 56vh); }
+
 .route-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 13px; }
 .route-summary div { padding: 10px; border-radius: 10px; background: #f2f7f3; }
 .route-summary span, .route-summary strong { display: block; }
@@ -333,6 +343,37 @@ body.dishaa-selecting .leaflet-container { cursor: crosshair; }
   .map-control { width: 38px; height: 38px; }
   .toast { bottom: calc(min(57vh, 500px) + 20px); }
 }
+
+/* Bottom sheet styles (mobile-first) ------------------------------------ */
+.bottom-sheet {
+  position: fixed;
+  z-index: 1400;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.98);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  transform: translateY(0);
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), opacity 180ms ease;
+}
+.bottom-sheet-handle { width: 44px; height: 6px; margin: 10px auto 8px; border-radius: 99px; background: #e5eee6; }
+.bottom-sheet-body { padding: 10px 14px 16px; max-height: 56vh; overflow: auto; }
+.bottom-sheet .place-card, .bottom-sheet .route-panel { margin: 0; background: transparent; border: 0; padding: 0; }
+
+/* Floating controls (compact FAB cluster) -------------------------------- */
+.floating-controls { position: fixed; z-index: 1500; right: 12px; bottom: 12px; display: grid; gap: 10px; }
+.fc-btn { width: 48px; height: 48px; border-radius: 12px; border: 0; background: rgba(255,255,255,0.95); box-shadow: var(--shadow-light); font-size: 1.1rem; display: grid; place-items: center; }
+.fc-btn:hover { transform: translateY(-3px); }
+
+/* Collapsed search pill */
+.search-pill { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; border-radius: 12px; background: rgba(255,255,255,0.96); border: 1px solid var(--line); color: var(--ink-soft); }
+.search-pill .pill-text { color: var(--muted); font-weight: 700; }
+
+/* Route polyline visibility improvement on mobile */
+.leaflet-container .leaflet-interactive { transition: stroke-opacity 160ms ease; }
+
 
 @media (max-width: 430px) {
   .place-meta { grid-template-columns: 1fr; }

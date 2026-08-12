@@ -28,5 +28,8 @@
     "express": "^4.19.2",
     "mongoose": "^8.5.1",
     "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
   }
 }

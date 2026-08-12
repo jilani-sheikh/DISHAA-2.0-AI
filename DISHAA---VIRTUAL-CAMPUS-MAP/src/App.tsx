@@ -5,6 +5,7 @@ import { IndoorMapDialog } from './components/layout/IndoorMapDialog';
 import { AppShell } from './components/layout/AppShell';
 import { Header } from './components/layout/Header';
 import { Toast } from './components/layout/Toast';
+import { FloatingControls } from './components/layout/FloatingControls';
 import { NavigationPanel, CURRENT_LOCATION, MAP_ORIGIN, MAP_DESTINATION } from './components/navigation/NavigationPanel';
 import { NearbyPlaces } from './components/places/NearbyPlaces';
 import { PlaceDetails } from './components/places/PlaceDetails';
@@ -241,6 +242,8 @@ export default function App() {
         onNavigate={() => void navigateFromPin()}
       />
 
+      <FloatingControls onLocate={() => void locateUser()} onReset={() => setMapResetVersion((v) => v + 1)} onAssistant={() => {}} />
+
       <Header
         isOnline={serviceIsOnline}
         isLocating={isLocating}
@@ -249,7 +252,7 @@ export default function App() {
       />
 
       <aside className="floating-panel" aria-label="Campus explorer">
-        <SearchBar onSelect={selectPlace} />
+        <SearchBar onSelect={selectPlace} currentLocation={currentLocation} />
         <CategoryFilters category={category} onChange={setCategory} />
 
         {arePlacesLoading && <div className="panel-state"><span className="loading-ring" aria-hidden="true" /> Loading campus places</div>}
