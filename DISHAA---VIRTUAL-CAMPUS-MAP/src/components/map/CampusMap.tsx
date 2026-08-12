@@ -1,6 +1,7 @@
 import { Circle, MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { divIcon } from 'leaflet';
-import type { Coordinates, Place, RouteResponse } from '../../types';
+import type { Coordinates, PinPoint, Place, RouteResponse } from '../../types';
+import { MapInteraction } from './MapInteraction';
 import { MapViewport, campusCenter, campusZoom } from './MapViewport';
 import { PlaceMarkers } from './PlaceMarkers';
 import { RouteLayer } from './RouteLayer';
@@ -10,10 +11,15 @@ interface CampusMapProps {
   selectedPlace: Place | null;
   currentLocation: Coordinates | null;
   locationAccuracy: number | null;
+  originPin: PinPoint | null;
+  destinationPin: PinPoint | null;
   route: RouteResponse | null;
   routeCoordinates: Coordinates[];
   resetVersion: number;
   onSelectPlace: (place: Place) => void;
+  onMapClick: (coordinates: Coordinates) => void;
+  onSetDestination: () => void;
+  onNavigate: () => void;
 }
 
 const currentLocationIcon = divIcon({
@@ -24,7 +30,8 @@ const currentLocationIcon = divIcon({
 });
 
 export function CampusMap({
-  places, selectedPlace, currentLocation, locationAccuracy, route, routeCoordinates, resetVersion, onSelectPlace,
+  places, selectedPlace, currentLocation, locationAccuracy, originPin, destinationPin,
+  route, routeCoordinates, resetVersion, onSelectPlace, onMapClick, onSetDestination, onNavigate,
 }: CampusMapProps) {
   return (
     <MapContainer center={campusCenter} zoom={campusZoom} zoomControl={false} className="campus-map" aria-label="Interactive campus map">
@@ -42,6 +49,14 @@ export function CampusMap({
         />
       )}
       {currentLocation && <Marker position={[currentLocation.lat, currentLocation.lng]} icon={currentLocationIcon} />}
+      <MapInteraction
+        originPin={originPin}
+        destinationPin={destinationPin}
+        routeActive={Boolean(route)}
+        onMapClick={onMapClick}
+        onSetDestination={onSetDestination}
+        onNavigate={onNavigate}
+      />
       <RouteLayer route={route} coordinates={routeCoordinates} />
       <MapViewport selectedPlace={selectedPlace} routeCoordinates={routeCoordinates} resetVersion={resetVersion} />
     </MapContainer>

@@ -168,6 +168,46 @@ button:disabled { cursor: not-allowed; opacity: 0.62; }
 .leaflet-popup-content-wrapper { border-radius: 12px; box-shadow: var(--shadow-light); }
 .leaflet-popup-content { margin: 11px 13px; font-family: inherit; color: var(--ink); font-size: 0.79rem; }
 
+/* Map point selection (origin / destination pins) -------------------------- */
+.selection-marker { display: block; width: 21px; height: 21px; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3); }
+.selection-destination { background: #c04b41; box-shadow: 0 0 0 6px rgba(192, 75, 65, 0.18), 0 3px 10px rgba(0, 0, 0, 0.3); }
+.selection-origin { background: #2f765c; box-shadow: 0 0 0 6px rgba(47, 118, 92, 0.18), 0 3px 10px rgba(0, 0, 0, 0.3); }
+
+.map-pin-popup { display: flex; flex-direction: column; gap: 3px; min-width: 168px; }
+.map-pin-popup .eyebrow { margin: 0; color: var(--muted); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.map-pin-popup strong { font-size: 0.92rem; letter-spacing: -0.01em; }
+.map-pin-popup small { color: var(--muted); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+.map-pin-tag { align-self: flex-start; margin-top: 1px; padding: 2px 8px; border-radius: 999px; background: #eef3ef; color: #43625a; font-size: 0.68rem; font-weight: 750; }
+.map-pin-actions { display: flex; gap: 7px; margin-top: 9px; }
+.map-pin-actions button { flex: 1; min-height: 34px; padding: 0 10px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: #fff; font-size: 0.76rem; font-weight: 750; }
+.map-pin-actions button:hover { background: #f1f6f2; }
+.map-pin-actions button.is-primary { border-color: var(--ink); color: #fff; background: var(--ink); }
+.map-pin-actions button.is-primary:hover { background: #0d3028; }
+
+body.dishaa-selecting .leaflet-container { cursor: crosshair; }
+
+.map-select-hint {
+  position: fixed;
+  z-index: 1250;
+  top: 78px;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px 9px 16px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(220, 229, 223, 0.9);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: var(--shadow-light);
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+}
+.map-select-hint button { padding: 6px 12px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 0.76rem; font-weight: 750; }
+.map-select-hint button:hover { background: #0d3028; }
+
 .dialog-backdrop { position: fixed; z-index: 1500; inset: 0; display: grid; place-items: center; padding: 16px; background: rgba(12, 35, 29, 0.42); backdrop-filter: blur(2px); }
 .indoor-guide-dialog { position: relative; width: min(380px, 100%); padding: 24px; border-radius: 18px; color: var(--ink); background: #fff; box-shadow: var(--shadow); }
 .indoor-guide-dialog h2 { margin: 0; font-size: 1.3rem; letter-spacing: -0.025em; }
