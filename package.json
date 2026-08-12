@@ -1,0 +1,32 @@
+{
+  "name": "dishaa-backend",
+  "version": "2.0.0",
+  "description": "DISHAA Virtual Campus Navigation System - Backend API",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "import": "node src/scripts/importGeoJSON.js",
+    "validate:db": "node src/scripts/validateDB.js"
+  },
+  "keywords": [
+    "dishaa",
+    "campus-navigation",
+    "mongodb",
+    "mongoose",
+    "express",
+    "valhalla",
+    "geojson",
+    "geospatial"
+  ],
+  "author": "DISHAA Team",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.1",
+    "node-fetch": "^2.7.0"
+  }
+}

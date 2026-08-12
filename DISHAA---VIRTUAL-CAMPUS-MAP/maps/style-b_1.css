@@ -1,0 +1,459 @@
+
+        /* Center the image on the screen */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .floor-plan-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .floor-plan-image {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease; /* Smooth transition for zooming */
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border: 2px solid black;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0.7;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        /* Overlay for pop-up */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            /* Black background with slight transparency */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        /* Visible state for overlay */
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Content inside the overlay */
+        .overlay-content {
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            position: relative;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            background: black;
+            border-radius: 8px;
+
+           
+        }
+
+        /* Close button for overlay */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 20px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            /* Black background with slight transparency */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 20;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .invisible-hotspot {
+            opacity: 0;
+            /* Make the hotspot invisible */
+            pointer-events: none;
+            /* Disable pointer events so they don't interfere with clicks */
+        }
+
+        #directionCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            /* Allow clicks to pass through */
+            z-index: 5;
+            /* Ensure it is above the floor plan but below hotspots */
+            border: 1px solid transparent;
+            /* Optional: Add a border for visibility */
+        }
+
+        .line {
+            background-color: red;
+            /* Ensure the line is visible */
+            height: 2px;
+            /* Set a default height */
+            position: absolute;
+            /* Set the position to absolute */
+            z-index: 15;
+            /* Ensure it is above the floor plan but below hotspots */
+            transform-origin: 0 50%;
+            /* Set the origin for rotation */
+        }
+
+        #lines-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* Allow clicks to pass through */
+            overflow: hidden;
+            /* Prevent overflow */
+        }
+
+        #close-directions-btn {
+    position: absolute; /* Position it absolutely within the container */
+    top: 270px; /* Adjust this value to set the vertical position */
+    left: 220px; /* Adjust this value to set the horizontal position */
+    background-color: #f44336; /* Red background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 15px; /* Padding */
+    cursor: pointer; /* Pointer cursor */
+    border-radius: 5px; /* Rounded corners */
+    display: block; /* Ensure it is displayed */
+    z-index: 100; /* Ensure it is above other elements */
+    width: 200px;
+    height: 55px;
+}
+    
+/* Tooltip styles */
+.tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: none; /* Initially hidden */
+    z-index: 100; /* Ensure it appears above other elements */
+}
+#faculty-info-container {
+    max-height: 400px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px; /* Add some padding */
+    background-color: #222; /* Optional: background color for better visibility */
+}
+.note {
+    background-color: black; /* Black background */
+    color: white; /* White text */
+    padding: 10px; /* Padding around the text */
+    text-align: center; /* Center the text */
+    font-size: 16px; /* Font size */
+    margin-top: 500px; /* Space above the note */
+    width: 100%; /* Make the note take the full width */
+    z-index: 1; /* Ensure it appears above other elements */
+    position: absolute;
+}
+
+
+/* Search button styles */
+#search-btn {
+    position: absolute; /* Position it absolutely within the container */
+    top: 49%; /* Adjust this value to set the vertical position */
+    left: 17%; /* Adjust this value to set the horizontal position */
+    background-color: whitesmoke; /* Green background */
+    color: black; /* White text */
+    border: black 2p; /* No border */
+    padding: 0.5px 0.5px; /* Padding */
+    cursor: pointer; /* Pointer cursor */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 12px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    height: 8%;
+    width: 17%;
+    
+}
+
+/* Search button hover effect */
+#search-btn:hover {
+    background-color: skyblue; /* Darker green on hover */
+}
+#faculty{
+    background-color: #007BFF; /* Bootstrap primary color */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 15px; /* Padding for better click area */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+#faculty:hover{
+    background-color: aqua;
+}
+#room:hover{
+    background-color: aqua;
+}
+#room{
+    background-color: #007BFF; /* Bootstrap primary color */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 15px; /* Padding for better click area */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+/* Style for the room selection buttons */
+#by-room-no-btn, #by-room-name-btn {
+   /* background-color: #28a745; /* Green background color */
+   /* color: white; /* White text */
+   /* border: none; /* No border */
+   /* padding: 10px 15px; /* Padding for better click area */
+   /* border-radius: 5px; /* Rounded corners */
+   /* cursor: pointer; /* Pointer cursor on hover */
+   /* font-size: 16px; /* Font size */
+   /* transition: background-color 0.3s; /* Smooth transition for hover effect */
+   /* margin-right: 10px; /* Space between buttons */
+
+    background-color: #007BFF; /* Bootstrap primary color */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 15px; /* Padding for better click area */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+/* Change background color on hover */
+#by-room-no-btn:hover, #by-room-name-btn:hover {
+    background-color: aqua
+    
+    
+    ; /* Darker green shade on hover */
+ 
+}
+#close-zoom-btn {
+    position: absolute; /* Position it absolutely within the container */
+    top: 20px; /* Adjust this value to set the vertical position */
+    right: 20px; /* Adjust this value to set the horizontal position */
+    background-color: #f44336; /* Red background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 15px; /* Padding */
+    cursor: pointer; /* Pointer cursor */
+    border-radius: 5px; /* Rounded corners */
+    display: none; /* Initially hidden */
+    z-index: 100; /* Ensure it is above other elements */
+}
+/* Styles for suggestion lists */
+#room-name-suggestions,
+#room-number-suggestions {
+    position: absolute; /* Position it relative to the input field */
+    background-color: black; /* White background for the suggestions */
+    border: 1px solid white; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    z-index: 1000; /* Ensure it appears above other elements */
+    width: calc(100% - 2px); /* Full width minus border */
+    max-height: 200px; /* Maximum height for the dropdown */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+/* Style for each suggestion item */
+#room-name-suggestions li,
+#room-number-suggestions li {
+    padding: 10px; /* Padding for suggestion items */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+/* Change background color on hover */
+#room-name-suggestions li:hover,
+#room-number-suggestions li:hover {
+    background-color: skyblue; /* Light gray background on hover */
+}
+#faculty-suggestions{
+    position: absolute; /* Position it relative to the input field */
+    background-color: black; /* White background for the suggestions */
+    border: 1px solid white; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    z-index: 1000; /* Ensure it appears above other elements */
+    width: calc(100% - 2px); /* Full width minus border */
+    max-height: 200px; /* Maximum height for the dropdown */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+
+}
+#faculty-suggestions li{
+    padding: 10px; /* Padding for suggestion items */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+#faculty-suggestions li:hover,
+#room-number-suggestions li:hover {
+    background-color: skyblue; /* Light gray background on hover */
+}
+
+/* Add this to your style.css */
+#photos-container {
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow wrapping of images */
+    justify-content: center; /* Center images */
+    gap: 10px; /* Space between images */
+}
+
+#photos-container img {
+    max-width: 100%; /* Ensure images do not exceed the container width */
+    max-height: 200px; /* Set a maximum height for images */
+    object-fit: cover; /* Maintain aspect ratio and cover the area */
+    border: 1px solid #fff; /* Optional: Add a border for better visibility */
+    border-radius: 5px; /* Optional: Rounded corners */
+}
+#info , #faculti ,#pic , #dir{
+    background-color: #007BFF;
+    /* Bootstrap primary color */
+    color: white;
+    /* White text */
+    border: none;
+    /* No border */
+    padding: 10px 15px;
+    /* Padding for better click area */
+    border-radius: 5px;
+    /* Rounded corners */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    font-size: 16px;
+    /* Font size */
+    transition: background-color 0.3s;
+    /* Smooth transition for hover effect */
+}
+#info:hover , #faculti:hover ,#pic:hover , #dir:hover{
+    background-color: gray;
+}
+
+
+#back-btn {
+    position: absolute; /* Position it absolutely within the container */
+    top: 45%; /* Adjust this value to set the vertical position */
+    left: 37%; /* Adjust this value to set the horizontal position */
+    background-color: whitesmoke; /* Green background */
+    color: black; /* White text */
+    border: black 2p; /* No border */
+    padding: 1px 13px; /* Padding */
+    cursor: pointer; /* Pointer cursor */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    height: 10%;
+   
+   
+}
+
+#back-btn:hover {
+    background-color: skyblue; /* Darker shade on hover */
+}
+
+
+/* Overlay for Image Display */
+#image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* Initially hidden */
+    visibility: hidden; /* Initially hidden */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+#image-overlay.active {
+    opacity: 1; /* Visible when active */
+    visibility: visible; /* Visible when active */
+}
+
+#displayed-image {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 8px;
+}
+
+
+#initial-note {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    z-index: 1001; /* Ensure it appears above the overlay */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+
+
+#faculty-info-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#faculty-info-container th, #faculty-info-container td {
+    border: 1px solid white;
+ padding: 8px;
+    text-align: left;
+}
+
+#faculty-info-container th {
+    background-color: #333;
+    color: white;
+}

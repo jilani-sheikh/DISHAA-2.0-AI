@@ -1,0 +1,51 @@
+# DISHAA Phase 2A — Valhalla Docker Compose
+#
+# Routing engine for DISHAA Virtual Campus Navigation System.
+# OSM source: data/reference/campus.osm  (READ-ONLY — never modified)
+# Tile output: data/valhalla/             (generated, gitignored)
+#
+# IMPORTANT: Before running `docker compose up` for the first time, run:
+#   Copy-Item "data\reference\campus.osm" "data\valhalla\campus.osm" -Force
+#
+# The gis-ops image uses /custom_files for BOTH reading the OSM input
+# AND writing the generated tiles. We therefore mount data/valhalla/ as
+# /custom_files and place a copy of campus.osm there.
+# The authoritative source in data/reference/campus.osm is NEVER modified.
+#
+# Usage:
+#   docker compose up -d           # Start (builds tiles on first run ~1-2 min)
+#   docker compose logs -f         # Watch tile build + server startup
+#   docker compose down            # Stop
+#
+# To force a full tile rebuild:
+#   docker compose down
+#   Remove-Item data\valhalla\* -Recurse -Force
+#   Copy-Item data\reference\campus.osm data\valhalla\campus.osm -Force
+#   docker compose up -d
+
+services:
+  valhalla:
+    image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
+    container_name: dishaa-valhalla
+    ports:
+      - "8002:8002"
+    volumes:
+      # Single mount: container reads OSM from here and writes tiles here too
+      - ./data/valhalla:/custom_files
+    environment:
+      # Start HTTP service with pre-built tiles
+      - use_tiles_ignore_pbf=True
+      - force_rebuild=False
+      - build_time_zones=False
+      - build_elevation=False
+      - serve_tiles=True
+      - build_admins=False
+      - build_tar=False
+      - server_threads=2
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8002/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 180s

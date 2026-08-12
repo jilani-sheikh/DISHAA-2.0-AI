@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="openstreetmap-cgimap 2.1.0 (3863841 spike-07.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <bounds minlat="21.1229960" minlon="79.0013550" maxlat="21.1260480" maxlon="79.0053360"/>
+ <node id="312716398" visible="true" version="14" changeset="34218955" timestamp="2015-09-24T06:05:53Z" user="trushnam" uid="3117271" lat="21.1277343" lon="79.0055525"/>
+ <node id="312716399" visible="true" version="5" changeset="156805413" timestamp="2024-09-19T07:25:55Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1273380" lon="79.0052382"/>
+ <node id="312716401" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1242784" lon="79.0006174"/>
+ <node id="3755585704" visible="true" version="9" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1235823" lon="79.0029547"/>
+ <node id="3755585709" visible="true" version="7" changeset="156805244" timestamp="2024-09-19T07:22:02Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1250631" lon="79.0018502"/>
+ <node id="3756753008" visible="true" version="6" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1252724" lon="79.0021805"/>
+ <node id="3756753009" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1255819" lon="79.0009820"/>
+ <node id="3756784622" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1248716" lon="79.0015361"/>
+ <node id="3756784624" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1253513" lon="79.0011533"/>
+ <node id="7920294806" visible="true" version="1" changeset="91112942" timestamp="2020-09-18T12:37:11Z" user="1 Piece" uid="11832617" lat="21.1235911" lon="79.0043324"/>
+ <node id="7920294807" visible="true" version="1" changeset="91112942" timestamp="2020-09-18T12:37:11Z" user="1 Piece" uid="11832617" lat="21.1233209" lon="79.0036672"/>
+ <node id="7920294808" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1230630" lon="79.0025701"/>
+ <node id="7920294809" visible="true" version="1" changeset="91112942" timestamp="2020-09-18T12:37:11Z" user="1 Piece" uid="11832617" lat="21.1246694" lon="79.0013871"/>
+ <node id="7920294810" visible="true" version="1" changeset="91112942" timestamp="2020-09-18T12:37:11Z" user="1 Piece" uid="11832617" lat="21.1236068" lon="79.0052897"/>
+ <node id="7920294811" visible="true" version="13" changeset="156293462" timestamp="2024-09-06T21:47:11Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1260401" lon="79.0035080"/>
+ <node id="7920294812" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1286951" lon="79.0011513"/>
+ <node id="7920294813" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1285100" lon="79.0010816"/>
+ <node id="7920294814" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1279295" lon="79.0005451"/>
+ <node id="7920294815" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1275893" lon="79.0004164"/>
+ <node id="7920294816" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1268987" lon="79.0006900"/>
+ <node id="7920294817" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1267936" lon="79.0009528"/>
+ <node id="7920294818" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1268837" lon="79.0012318"/>
+ <node id="7920294819" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1256778" lon="79.0026158"/>
+ <node id="7920294820" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1272940" lon="79.0051317"/>
+ <node id="7920294821" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1276543" lon="79.0053570"/>
+ <node id="7920294822" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1279295" lon="79.0048259"/>
+ <node id="7920294823" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1291104" lon="79.0046275"/>
+ <node id="7920294824" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1287201" lon="79.0019077"/>
+ <node id="7920294825" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1286851" lon="79.0012425"/>
+ <node id="8145702903" visible="true" version="6" changeset="156805413" timestamp="2024-09-19T07:25:55Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1256575" lon="79.0027358"/>
+ <node id="8145702917" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1264396" lon="79.0010293"/>
+ <node id="8145702921" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1258892" lon="79.0016665"/>
+ <node id="8145702922" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1252915" lon="79.0014548"/>
+ <node id="8145702923" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1253422" lon="79.0015537"/>
+ <node id="8145702924" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1253497" lon="79.0015563"/>
+ <node id="8145702925" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1253575" lon="79.0015563"/>
+ <node id="8145702926" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1254651" lon="79.0014571"/>
+ <node id="8145702927" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1255702" lon="79.0013579"/>
+ <node id="8145702928" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1257635" lon="79.0011652"/>
+ <node id="8145702929" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1263358" lon="79.0017615"/>
+ <node id="8145702930" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1262620" lon="79.0016623"/>
+ <node id="8145702931" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1261744" lon="79.0015604"/>
+ <node id="8145702932" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1261044" lon="79.0014866"/>
+ <node id="8145702933" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1260130" lon="79.0014088"/>
+ <node id="8145702934" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1259480" lon="79.0013726"/>
+ <node id="8145702935" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1258992" lon="79.0013270"/>
+ <node id="8145702946" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1261228" lon="79.0010934"/>
+ <node id="8145702950" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1267492" lon="79.0009372"/>
+ <node id="8145702951" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1266677" lon="79.0009488"/>
+ <node id="8145702952" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1265651" lon="79.0009815"/>
+ <node id="8145702954" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1262764" lon="79.0011077"/>
+ <node id="8145702955" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1262595" lon="79.0011144"/>
+ <node id="8145702956" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1262407" lon="79.0011151"/>
+ <node id="8145702957" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1260806" lon="79.0010856"/>
+ <node id="8145702958" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1260618" lon="79.0010856"/>
+ <node id="8145702959" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1260456" lon="79.0010963"/>
+ <node id="8145702960" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1259930" lon="79.0011825"/>
+ <node id="8145702962" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1259592" lon="79.0011714"/>
+ <node id="8145702963" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1258254" lon="79.0010132"/>
+ <node id="8145702964" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1258004" lon="79.0010011"/>
+ <node id="8145702965" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1257741" lon="79.0009998"/>
+ <node id="8145702966" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1257425" lon="79.0010061"/>
+ <node id="8145702967" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1256765" lon="79.0010615"/>
+ <node id="8145702968" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1253532" lon="79.0013237"/>
+ <node id="8145702969" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1253425" lon="79.0013404"/>
+ <node id="8145702970" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1253363" lon="79.0013632"/>
+ <node id="8145702971" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1253162" lon="79.0014055"/>
+ <node id="8145702973" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1249808" lon="79.0017025"/>
+ <node id="8145702975" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1243872" lon="79.0007858"/>
+ <node id="8145702977" visible="true" version="2" changeset="154472105" timestamp="2024-07-27T08:22:31Z" user="cool tower" uid="21792110" lat="21.1259674" lon="79.0035514"/>
+ <node id="8145702978" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1239042" lon="79.0040097"/>
+ <node id="8145702979" visible="true" version="1" changeset="94495431" timestamp="2020-11-20T10:52:52Z" user="VLD217" uid="10882299" lat="21.1242542" lon="79.0046167"/>
+ <node id="8145702980" visible="true" version="1" changeset="94495431" timestamp="2020-11-20T10:52:52Z" user="VLD217" uid="10882299" lat="21.1242892" lon="79.0046489"/>
+ <node id="8145702981" visible="true" version="1" changeset="94495431" timestamp="2020-11-20T10:52:52Z" user="VLD217" uid="10882299" lat="21.1243392" lon="79.0046623"/>
+ <node id="8145702982" visible="true" version="1" changeset="94495431" timestamp="2020-11-20T10:52:52Z" user="VLD217" uid="10882299" lat="21.1243993" lon="79.0046543"/>
+ <node id="8145702986" visible="true" version="2" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1236040" lon="79.0029908"/>
+ <node id="8145702987" visible="true" version="2" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1236208" lon="79.0030112"/>
+ <node id="8145702988" visible="true" version="2" changeset="154620420" timestamp="2024-07-30T19:12:42Z" user="cool tower" uid="21792110" lat="21.1239690" lon="79.0035053"/>
+ <node id="8145703133" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1245869" lon="79.0063038"/>
+ <node id="8145703134" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1266886" lon="79.0048823"/>
+ <node id="8145703170" visible="true" version="1" changeset="94495431" timestamp="2020-11-20T10:52:52Z" user="VLD217" uid="10882299" lat="21.1276593" lon="79.0054965"/>
+ <node id="11104033977" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1259755" lon="79.0011806"/>
+ <node id="11104033979" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1271814" lon="79.0050769"/>
+ <node id="11381289768" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1247835" lon="79.0065719"/>
+ <node id="11381315869" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1265236" lon="79.0046065"/>
+ <node id="11381315870" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1244568" lon="79.0060573"/>
+ <node id="11381315871" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1254923" lon="79.0053304"/>
+ <node id="11381315874" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1256180" lon="79.0055437"/>
+ <node id="12076510173" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1232453" lon="79.0024358"/>
+ <node id="12076510174" visible="true" version="1" changeset="154471552" timestamp="2024-07-27T08:08:39Z" user="cool tower" uid="21792110" lat="21.1245399" lon="79.0030950"/>
+ <node id="12076510175" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1241781" lon="79.0025335"/>
+ <node id="12076510176" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1242191" lon="79.0025925"/>
+ <node id="12076519968" visible="true" version="2" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1250429" lon="79.0021585"/>
+ <node id="12076530514" visible="true" version="3" changeset="154496420" timestamp="2024-07-27T18:51:22Z" user="foolyaar" uid="21729038" lat="21.1247561" lon="79.0019736"/>
+ <node id="12076530515" visible="true" version="2" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1240675" lon="79.0024725"/>
+ <node id="12076530516" visible="true" version="2" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1237860" lon="79.0020351"/>
+ <node id="12076530517" visible="true" version="2" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1244746" lon="79.0015078"/>
+ <node id="12076530518" visible="true" version="2" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1245834" lon="79.0016749"/>
+ <node id="12076530519" visible="true" version="2" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1246432" lon="79.0017821"/>
+ <node id="12076542869" visible="true" version="2" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1247189" lon="79.0023952"/>
+ <node id="12076542870" visible="true" version="2" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1253622" lon="79.0034089"/>
+ <node id="12076542871" visible="true" version="2" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1256934" lon="79.0031717"/>
+ <node id="12076551612" visible="true" version="1" changeset="154472726" timestamp="2024-07-27T08:37:29Z" user="cool tower" uid="21792110" lat="21.1241627" lon="79.0024549">
+  <tag k="amenity" v="restaurant"/>
+  <tag k="name" v="Canteen 1"/>
+ </node>
+ <node id="12076551613" visible="true" version="6" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1243246" lon="79.0023400">
+  <tag k="name" v="Xerox Center"/>
+  <tag k="shop" v="books"/>
+ </node>
+ <node id="12076551614" visible="true" version="3" changeset="158984692" timestamp="2024-11-10T20:33:01Z" user="foolyaar" uid="21729038" lat="21.1244124" lon="79.0030323"/>
+ <node id="12076551615" visible="true" version="4" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1242488" lon="79.0027152"/>
+ <node id="12076551616" visible="true" version="3" changeset="154496420" timestamp="2024-07-27T18:51:22Z" user="foolyaar" uid="21729038" lat="21.1241867" lon="79.0027497"/>
+ <node id="12076551618" visible="true" version="2" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1238321" lon="79.0030040"/>
+ <node id="12076551620" visible="true" version="3" changeset="154496420" timestamp="2024-07-27T18:51:22Z" user="foolyaar" uid="21729038" lat="21.1237733" lon="79.0030452"/>
+ <node id="12076551621" visible="true" version="3" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1238193" lon="79.0031258"/>
+ <node id="12076551622" visible="true" version="1" changeset="154472726" timestamp="2024-07-27T08:37:29Z" user="cool tower" uid="21792110" lat="21.1238503" lon="79.0031754"/>
+ <node id="12076551623" visible="true" version="1" changeset="154472726" timestamp="2024-07-27T08:37:29Z" user="cool tower" uid="21792110" lat="21.1238808" lon="79.0032127"/>
+ <node id="12076551624" visible="true" version="3" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1239139" lon="79.0032564"/>
+ <node id="12076551625" visible="true" version="3" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1239847" lon="79.0033568"/>
+ <node id="12076973482" visible="true" version="1" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1255099" lon="79.0032961"/>
+ <node id="12076973483" visible="true" version="2" changeset="154490461" timestamp="2024-07-27T15:51:43Z" user="foolyaar" uid="21729038" lat="21.1253132" lon="79.0025779">
+  <tag k="name" v="Students Section"/>
+  <tag k="office" v="student"/>
+ </node>
+ <node id="12076973488" visible="true" version="2" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1243595" lon="79.0029029"/>
+ <node id="12076973489" visible="true" version="2" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1243212" lon="79.0028379"/>
+ <node id="12076973490" visible="true" version="1" changeset="154487083" timestamp="2024-07-27T14:33:22Z" user="foolyaar" uid="21729038" lat="21.1242837" lon="79.0027823"/>
+ <node id="12076973491" visible="true" version="2" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1239586" lon="79.0033304"/>
+ <node id="12076973492" visible="true" version="3" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1244321" lon="79.0030261"/>
+ <node id="12077006598" visible="true" version="2" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1240219" lon="79.0025656"/>
+ <node id="12077006599" visible="true" version="2" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1235808" lon="79.0028834"/>
+ <node id="12077006600" visible="true" version="1" changeset="154487367" timestamp="2024-07-27T14:40:55Z" user="foolyaar" uid="21729038" lat="21.1232839" lon="79.0024312"/>
+ <node id="12077006601" visible="true" version="1" changeset="154487367" timestamp="2024-07-27T14:40:55Z" user="foolyaar" uid="21729038" lat="21.1237316" lon="79.0020973"/>
+ <node id="12077006602" visible="true" version="1" changeset="154487367" timestamp="2024-07-27T14:40:55Z" user="foolyaar" uid="21729038" lat="21.1238071" lon="79.0049153"/>
+ <node id="12077006603" visible="true" version="1" changeset="154487367" timestamp="2024-07-27T14:40:55Z" user="foolyaar" uid="21729038" lat="21.1236249" lon="79.0045931"/>
+ <node id="12077006604" visible="true" version="1" changeset="154487367" timestamp="2024-07-27T14:40:55Z" user="foolyaar" uid="21729038" lat="21.1237261" lon="79.0045146"/>
+ <node id="12077006605" visible="true" version="1" changeset="154487367" timestamp="2024-07-27T14:40:55Z" user="foolyaar" uid="21729038" lat="21.1236093" lon="79.0042892"/>
+ <node id="12077006606" visible="true" version="1" changeset="154487367" timestamp="2024-07-27T14:40:55Z" user="foolyaar" uid="21729038" lat="21.1239083" lon="79.0040772"/>
+ <node id="12077006607" visible="true" version="3" changeset="158984692" timestamp="2024-11-10T20:33:01Z" user="foolyaar" uid="21729038" lat="21.1240103" lon="79.0042496"/>
+ <node id="12077006609" visible="true" version="2" changeset="158984692" timestamp="2024-11-10T20:33:01Z" user="foolyaar" uid="21729038" lat="21.1241590" lon="79.0044862"/>
+ <node id="12077006611" visible="true" version="2" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1242252" lon="79.0046004"/>
+ <node id="12077006612" visible="true" version="1" changeset="154487367" timestamp="2024-07-27T14:40:55Z" user="foolyaar" uid="21729038" lat="21.1241746" lon="79.0046515"/>
+ <node id="12077020945" visible="true" version="4" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1257308" lon="79.0032104"/>
+ <node id="12077020946" visible="true" version="1" changeset="154487631" timestamp="2024-07-27T14:46:55Z" user="foolyaar" uid="21729038" lat="21.1252779" lon="79.0035180"/>
+ <node id="12077020948" visible="true" version="2" changeset="154490161" timestamp="2024-07-27T15:43:34Z" user="foolyaar" uid="21729038" lat="21.1258875" lon="79.0034185"/>
+ <node id="12077020949" visible="true" version="2" changeset="154495204" timestamp="2024-07-27T18:15:38Z" user="foolyaar" uid="21729038" lat="21.1253774" lon="79.0037735"/>
+ <node id="12077080298" visible="true" version="1" changeset="154490461" timestamp="2024-07-27T15:51:43Z" user="foolyaar" uid="21729038" lat="21.1254801" lon="79.0028290">
+  <tag k="name" v="Account Section"/>
+  <tag k="office" v="accountant"/>
+ </node>
+ <node id="12077238611" visible="true" version="1" changeset="154495204" timestamp="2024-07-27T18:15:38Z" user="foolyaar" uid="21729038" lat="21.1253252" lon="79.0035937">
+  <tag k="amenity" v="restaurant"/>
+  <tag k="name" v="Sandwich Cafe"/>
+ </node>
+ <node id="12077238612" visible="true" version="1" changeset="154495204" timestamp="2024-07-27T18:15:38Z" user="foolyaar" uid="21729038" lat="21.1240303" lon="79.0033923">
+  <tag k="amenity" v="restaurant"/>
+  <tag k="name" v="Siddhi Cafe"/>
+ </node>
+ <node id="12077238613" visible="true" version="2" changeset="154495372" timestamp="2024-07-27T18:20:13Z" user="foolyaar" uid="21729038" lat="21.1246503" lon="79.0020355">
+  <tag k="amenity" v="cafe"/>
+  <tag k="name" v="NesCafe"/>
+ </node>
+ <node id="12077238614" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1234555" lon="79.0028427"/>
+ <node id="12077238615" visible="true" version="5" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1235861" lon="79.0030528"/>
+ <node id="12077238616" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1233531" lon="79.0032303"/>
+ <node id="12077238617" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1232327" lon="79.0030178"/>
+ <node id="12077238618" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1234295" lon="79.0028641"/>
+ <node id="12077238619" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1237685" lon="79.0032041"/>
+ <node id="12077238620" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1236141" lon="79.0033167"/>
+ <node id="12077238621" visible="true" version="2" changeset="154620420" timestamp="2024-07-30T19:12:42Z" user="cool tower" uid="21792110" lat="21.1237708" lon="79.0035675"/>
+ <node id="12077238622" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1239161" lon="79.0034525"/>
+ <node id="12077238623" visible="true" version="1" changeset="154495204" timestamp="2024-07-27T18:15:38Z" user="foolyaar" uid="21729038" lat="21.1248302" lon="79.0029517"/>
+ <node id="12077238624" visible="true" version="2" changeset="158984736" timestamp="2024-11-10T20:34:40Z" user="foolyaar" uid="21729038" lat="21.1251416" lon="79.0034194"/>
+ <node id="12077238625" visible="true" version="2" changeset="158984736" timestamp="2024-11-10T20:34:40Z" user="foolyaar" uid="21729038" lat="21.1254220" lon="79.0038426"/>
+ <node id="12077238626" visible="true" version="4" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1243010" lon="79.0046442"/>
+ <node id="12077238627" visible="true" version="2" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1234622" lon="79.0039586"/>
+ <node id="12077238628" visible="true" version="1" changeset="154495204" timestamp="2024-07-27T18:15:38Z" user="foolyaar" uid="21729038" lat="21.1238514" lon="79.0036673"/>
+ <node id="12077238629" visible="true" version="1" changeset="154495204" timestamp="2024-07-27T18:15:38Z" user="foolyaar" uid="21729038" lat="21.1241107" lon="79.0034697"/>
+ <node id="12077238630" visible="true" version="1" changeset="154495204" timestamp="2024-07-27T18:15:38Z" user="foolyaar" uid="21729038" lat="21.1244985" lon="79.0015445"/>
+ <node id="12077255035" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1233434" lon="79.0033981">
+  <tag k="leisure" v="horse_riding"/>
+  <tag k="name" v="Horses"/>
+ </node>
+ <node id="12077255036" visible="true" version="2" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1236490" lon="79.0030518"/>
+ <node id="12077255037" visible="true" version="1" changeset="154496294" timestamp="2024-07-27T18:47:48Z" user="foolyaar" uid="21729038" lat="21.1233488" lon="79.0032794"/>
+ <node id="12077255038" visible="true" version="1" changeset="154496294" timestamp="2024-07-27T18:47:48Z" user="foolyaar" uid="21729038" lat="21.1233950" lon="79.0033693"/>
+ <node id="12077280062" visible="true" version="1" changeset="154495485" timestamp="2024-07-27T18:23:05Z" user="foolyaar" uid="21729038" lat="21.1247129" lon="79.0018954"/>
+ <node id="12077280063" visible="true" version="2" changeset="154528275" timestamp="2024-07-28T16:10:15Z" user="cool tower" uid="21792110" lat="21.1257526" lon="79.0030589"/>
+ <node id="12077301979" visible="true" version="1" changeset="154496120" timestamp="2024-07-27T18:41:42Z" user="foolyaar" uid="21729038" lat="21.1256018" lon="79.0033152"/>
+ <node id="12077301980" visible="true" version="1" changeset="154496120" timestamp="2024-07-27T18:41:42Z" user="foolyaar" uid="21729038" lat="21.1257180" lon="79.0034950"/>
+ <node id="12077301981" visible="true" version="1" changeset="154496120" timestamp="2024-07-27T18:41:42Z" user="foolyaar" uid="21729038" lat="21.1256152" lon="79.0035722"/>
+ <node id="12077301982" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1254981" lon="79.0033847"/>
+ <node id="12077301984" visible="true" version="1" changeset="154496120" timestamp="2024-07-27T18:41:42Z" user="foolyaar" uid="21729038" lat="21.1256115" lon="79.0033102"/>
+ <node id="12077301985" visible="true" version="1" changeset="154496120" timestamp="2024-07-27T18:41:42Z" user="foolyaar" uid="21729038" lat="21.1257291" lon="79.0035031"/>
+ <node id="12077301986" visible="true" version="1" changeset="154496120" timestamp="2024-07-27T18:41:42Z" user="foolyaar" uid="21729038" lat="21.1258620" lon="79.0034086"/>
+ <node id="12077301988" visible="true" version="1" changeset="154496120" timestamp="2024-07-27T18:41:42Z" user="foolyaar" uid="21729038" lat="21.1234375" lon="79.0039542"/>
+ <node id="12077301989" visible="true" version="1" changeset="154496120" timestamp="2024-07-27T18:41:42Z" user="foolyaar" uid="21729038" lat="21.1247962" lon="79.0029762"/>
+ <node id="12077301990" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1246331" lon="79.0030936"/>
+ <node id="12077301991" visible="true" version="1" changeset="154496120" timestamp="2024-07-27T18:41:42Z" user="foolyaar" uid="21729038" lat="21.1245804" lon="79.0031315"/>
+ <node id="12078364165" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1248091" lon="79.0020441"/>
+ <node id="12078364166" visible="true" version="1" changeset="154520704" timestamp="2024-07-28T13:17:42Z" user="foolyaar" uid="21729038" lat="21.1244859" lon="79.0015252"/>
+ <node id="12078405769" visible="true" version="1" changeset="154520704" timestamp="2024-07-28T13:17:42Z" user="foolyaar" uid="21729038" lat="21.1247575" lon="79.0028433"/>
+ <node id="12078405770" visible="true" version="1" changeset="154520704" timestamp="2024-07-28T13:17:42Z" user="foolyaar" uid="21729038" lat="21.1245323" lon="79.0024863"/>
+ <node id="12078405771" visible="true" version="1" changeset="154520704" timestamp="2024-07-28T13:17:42Z" user="foolyaar" uid="21729038" lat="21.1243696" lon="79.0026081"/>
+ <node id="12078405772" visible="true" version="2" changeset="154620420" timestamp="2024-07-30T19:12:42Z" user="cool tower" uid="21792110" lat="21.1245882" lon="79.0029673"/>
+ <node id="12078405773" visible="true" version="1" changeset="154520704" timestamp="2024-07-28T13:17:42Z" user="foolyaar" uid="21729038" lat="21.1258703" lon="79.0034435"/>
+ <node id="12078405774" visible="true" version="4" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1259141" lon="79.0035119"/>
+ <node id="12078405775" visible="true" version="5" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1257751" lon="79.0036011"/>
+ <node id="12078405776" visible="true" version="2" changeset="154528275" timestamp="2024-07-28T16:10:15Z" user="cool tower" uid="21792110" lat="21.1257312" lon="79.0035273"/>
+ <node id="12079554402" visible="true" version="1" changeset="154546598" timestamp="2024-07-29T06:10:29Z" user="BCNorwich" uid="322785" lat="21.1253181" lon="79.0035801"/>
+ <node id="12083790011" visible="true" version="1" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1235817" lon="79.0042427"/>
+ <node id="12083790012" visible="true" version="2" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1239213" lon="79.0039990"/>
+ <node id="12083790013" visible="true" version="1" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1250340" lon="79.0030494">
+  <tag k="amenity" v="restaurant"/>
+  <tag k="name" v="Chaap Centre"/>
+ </node>
+ <node id="12083790014" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1246074" lon="79.0031121">
+  <tag k="barrier" v="gate"/>
+ </node>
+ <node id="12083790015" visible="true" version="2" changeset="154620420" timestamp="2024-07-30T19:12:42Z" user="cool tower" uid="21792110" lat="21.1242428" lon="79.0026873"/>
+ <node id="12083790016" visible="true" version="1" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1237762" lon="79.0030255"/>
+ <node id="12083790017" visible="true" version="2" changeset="154620420" timestamp="2024-07-30T19:12:42Z" user="cool tower" uid="21792110" lat="21.1236986" lon="79.0029072"/>
+ <node id="12083790018" visible="true" version="2" changeset="154620420" timestamp="2024-07-30T19:12:42Z" user="cool tower" uid="21792110" lat="21.1241634" lon="79.0025708"/>
+ <node id="12083790019" visible="true" version="1" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1244451" lon="79.0023562"/>
+ <node id="12083790020" visible="true" version="2" changeset="154620420" timestamp="2024-07-30T19:12:42Z" user="cool tower" uid="21792110" lat="21.1245194" lon="79.0024697"/>
+ <node id="12083790021" visible="true" version="2" changeset="154620420" timestamp="2024-07-30T19:12:42Z" user="cool tower" uid="21792110" lat="21.1242787" lon="79.0026519"/>
+ <node id="12083790022" visible="true" version="1" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110" lat="21.1242038" lon="79.0025390"/>
+ <node id="12083826910" visible="true" version="2" changeset="156147419" timestamp="2024-09-03T15:17:05Z" user="foolyaar" uid="21729038" lat="21.1236049" lon="79.0029388"/>
+ <node id="12147772909" visible="true" version="1" changeset="156015154" timestamp="2024-08-31T13:26:00Z" user="foolyaar" uid="21729038" lat="21.1238502" lon="79.0033205"/>
+ <node id="12160870983" visible="true" version="1" changeset="156293462" timestamp="2024-09-06T21:47:11Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1249822" lon="79.0019023"/>
+ <node id="12160870984" visible="true" version="1" changeset="156293462" timestamp="2024-09-06T21:47:11Z" user="Spaghetti Monster🍝" uid="8758904" lat="21.1246572" lon="79.0014126"/>
+ <node id="12168500662" visible="true" version="1" changeset="156451603" timestamp="2024-09-10T17:44:03Z" user="foolyaar" uid="21729038" lat="21.1234457" lon="79.0028204"/>
+ <node id="12168500663" visible="true" version="1" changeset="156451603" timestamp="2024-09-10T17:44:03Z" user="foolyaar" uid="21729038" lat="21.1232619" lon="79.0025248"/>
+ <node id="12168500664" visible="true" version="1" changeset="156451603" timestamp="2024-09-10T17:44:03Z" user="foolyaar" uid="21729038" lat="21.1231163" lon="79.0026480"/>
+ <node id="12168500665" visible="true" version="1" changeset="156451603" timestamp="2024-09-10T17:44:03Z" user="foolyaar" uid="21729038" lat="21.1232797" lon="79.0029463"/>
+ <node id="12186794465" visible="true" version="1" changeset="156835795" timestamp="2024-09-19T18:58:46Z" user="foolyaar" uid="21729038" lat="21.1249877" lon="79.0019822"/>
+ <node id="12186794466" visible="true" version="1" changeset="156835795" timestamp="2024-09-19T18:58:46Z" user="foolyaar" uid="21729038" lat="21.1244946" lon="79.0023180"/>
+ <node id="12186794467" visible="true" version="1" changeset="156835795" timestamp="2024-09-19T18:58:46Z" user="foolyaar" uid="21729038" lat="21.1248538" lon="79.0028683"/>
+ <node id="12315830076" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1243667" lon="79.0026283"/>
+ <node id="12315830077" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1245747" lon="79.0029690"/>
+ <node id="12315830078" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1244514" lon="79.0030588"/>
+ <node id="12315830080" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1244031" lon="79.0028807"/>
+ <node id="12315830081" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1244964" lon="79.0028165"/>
+ <node id="12315830082" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1236628" lon="79.0030694"/>
+ <node id="12315830083" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1237375" lon="79.0031997"/>
+ <node id="12315830084" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1235025" lon="79.0033792"/>
+ <node id="12315830085" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1235250" lon="79.0034149"/>
+ <node id="12315830086" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1235709" lon="79.0033821"/>
+ <node id="12315830087" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1237222" lon="79.0036079"/>
+ <node id="12315830088" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1235862" lon="79.0037170"/>
+ <node id="12315830089" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1234566" lon="79.0034959"/>
+ <node id="12315830090" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1235160" lon="79.0034535"/>
+ <node id="12315830091" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1234782" lon="79.0033936"/>
+ <node id="12315830093" visible="true" version="2" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038" lat="21.1234575" lon="79.0033628"/>
+ <node id="12315830095" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1233981" lon="79.0032634"/>
+ <node id="12315830096" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1254931" lon="79.0034194"/>
+ <node id="12315830097" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1254045" lon="79.0034864"/>
+ <node id="12315830098" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1254653" lon="79.0035832"/>
+ <node id="12315830099" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038" lat="21.1255608" lon="79.0035199"/>
+ <node id="14008147559" visible="true" version="1" changeset="185639404" timestamp="2026-07-13T09:01:01Z" user="PrernaJadhav" uid="24261318" lat="21.1266218" lon="79.0048794"/>
+ <node id="14008147560" visible="true" version="1" changeset="185639404" timestamp="2026-07-13T09:01:01Z" user="PrernaJadhav" uid="24261318" lat="21.1265010" lon="79.0046768"/>
+ <node id="14008147561" visible="true" version="1" changeset="185639404" timestamp="2026-07-13T09:01:01Z" user="PrernaJadhav" uid="24261318" lat="21.1255496" lon="79.0053291"/>
+ <node id="14008147562" visible="true" version="1" changeset="185639404" timestamp="2026-07-13T09:01:01Z" user="PrernaJadhav" uid="24261318" lat="21.1256703" lon="79.0055316"/>
+ <way id="28464386" visible="true" version="13" changeset="156805413" timestamp="2024-09-19T07:25:55Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="8145702903"/>
+  <nd ref="11104033979"/>
+  <nd ref="312716399"/>
+  <nd ref="8145703170"/>
+  <nd ref="312716398"/>
+  <tag k="highway" v="residential"/>
+ </way>
+ <way id="372146302" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="3756784622"/>
+  <nd ref="3756784624"/>
+  <nd ref="3756753009"/>
+  <tag k="highway" v="residential"/>
+ </way>
+ <way id="848874321" visible="true" version="18" changeset="156293462" timestamp="2024-09-06T21:47:11Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="7920294810"/>
+  <nd ref="7920294806"/>
+  <nd ref="12077301988"/>
+  <nd ref="7920294807"/>
+  <nd ref="7920294808"/>
+  <nd ref="12076510173"/>
+  <nd ref="12076530516"/>
+  <nd ref="12076530517"/>
+  <nd ref="7920294809"/>
+  <nd ref="12077280063"/>
+  <nd ref="7920294811"/>
+  <nd ref="8145702977"/>
+  <nd ref="7920294810"/>
+  <tag k="boundary" v="administrative"/>
+  <tag k="college" v="GHRCEM"/>
+ </way>
+ <way id="848874322" visible="true" version="7" changeset="156293462" timestamp="2024-09-06T21:47:11Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="7920294825"/>
+  <nd ref="7920294824"/>
+  <nd ref="7920294823"/>
+  <nd ref="7920294822"/>
+  <nd ref="7920294821"/>
+  <nd ref="7920294820"/>
+  <nd ref="7920294819"/>
+  <nd ref="7920294818"/>
+  <nd ref="7920294817"/>
+  <nd ref="7920294816"/>
+  <nd ref="7920294815"/>
+  <nd ref="7920294814"/>
+  <nd ref="7920294813"/>
+  <nd ref="7920294812"/>
+  <nd ref="7920294825"/>
+  <tag k="landuse" v="industrial"/>
+ </way>
+ <way id="875096098" visible="true" version="7" changeset="156805413" timestamp="2024-09-19T07:25:55Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="8145702921"/>
+  <nd ref="3756753008"/>
+  <tag k="highway" v="residential"/>
+  <tag k="source" v="maxar"/>
+ </way>
+ <way id="875096099" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="8145702928"/>
+  <nd ref="8145702927"/>
+  <nd ref="8145702926"/>
+  <nd ref="8145702925"/>
+  <nd ref="8145702924"/>
+  <nd ref="8145702923"/>
+  <nd ref="8145702922"/>
+  <tag k="highway" v="residential"/>
+  <tag k="source" v="maxar"/>
+ </way>
+ <way id="875096100" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="8145702967"/>
+  <nd ref="8145702928"/>
+  <nd ref="8145702935"/>
+  <nd ref="8145702934"/>
+  <nd ref="8145702933"/>
+  <nd ref="8145702932"/>
+  <nd ref="8145702931"/>
+  <nd ref="8145702930"/>
+  <nd ref="8145702929"/>
+  <tag k="highway" v="residential"/>
+  <tag k="source" v="maxar"/>
+ </way>
+ <way id="875096104" visible="true" version="4" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="8145702973"/>
+  <nd ref="8145702922"/>
+  <nd ref="8145702971"/>
+  <nd ref="8145702970"/>
+  <nd ref="8145702969"/>
+  <nd ref="8145702968"/>
+  <nd ref="8145702967"/>
+  <nd ref="8145702966"/>
+  <nd ref="8145702965"/>
+  <nd ref="8145702964"/>
+  <nd ref="8145702963"/>
+  <nd ref="8145702962"/>
+  <nd ref="11104033977"/>
+  <nd ref="8145702960"/>
+  <nd ref="8145702959"/>
+  <nd ref="8145702958"/>
+  <nd ref="8145702957"/>
+  <nd ref="8145702946"/>
+  <nd ref="8145702956"/>
+  <nd ref="8145702955"/>
+  <nd ref="8145702954"/>
+  <nd ref="8145702917"/>
+  <nd ref="8145702952"/>
+  <nd ref="8145702951"/>
+  <nd ref="8145702950"/>
+  <tag k="highway" v="residential"/>
+  <tag k="source" v="maxar"/>
+ </way>
+ <way id="875096107" visible="true" version="9" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="7920294811"/>
+  <nd ref="8145702977"/>
+  <nd ref="8145702982"/>
+  <nd ref="8145702981"/>
+  <nd ref="8145702980"/>
+  <nd ref="8145702979"/>
+  <nd ref="8145702978"/>
+  <tag k="access" v="private"/>
+  <tag k="highway" v="footway"/>
+  <tag k="source" v="maxar"/>
+ </way>
+ <way id="1227341953" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="8145703134"/>
+  <nd ref="11381315869"/>
+  <nd ref="11381315871"/>
+  <nd ref="11381315870"/>
+  <nd ref="8145703133"/>
+  <nd ref="11381289768"/>
+  <tag k="access" v="private"/>
+  <tag k="highway" v="service"/>
+ </way>
+ <way id="1227341954" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="11381315871"/>
+  <nd ref="11381315874"/>
+  <tag k="access" v="private"/>
+  <tag k="highway" v="service"/>
+ </way>
+ <way id="1304035596" visible="true" version="7" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="3755585704"/>
+  <nd ref="12076510173"/>
+  <tag k="footway" v="sidewalk"/>
+  <tag k="highway" v="footway"/>
+ </way>
+ <way id="1304035597" visible="true" version="10" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038">
+  <nd ref="12076510175"/>
+  <nd ref="12076510176"/>
+  <nd ref="12315830080"/>
+  <nd ref="12076510174"/>
+  <tag k="bicycle" v="no"/>
+  <tag k="highway" v="footway"/>
+  <tag k="horse" v="no"/>
+ </way>
+ <way id="1304037809" visible="true" version="5" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="12076519968"/>
+  <nd ref="12076542869"/>
+  <nd ref="12076542870"/>
+  <nd ref="12076973482"/>
+  <nd ref="12076542871"/>
+  <nd ref="12077080298"/>
+  <nd ref="12076973483"/>
+  <nd ref="12076519968"/>
+  <tag k="building" v="office"/>
+  <tag k="name" v="Block A"/>
+ </way>
+ <way id="1304038255" visible="true" version="11" changeset="158984692" timestamp="2024-11-10T20:33:01Z" user="foolyaar" uid="21729038">
+  <nd ref="12076530514"/>
+  <nd ref="12076530515"/>
+  <nd ref="12076530516"/>
+  <nd ref="12076530517"/>
+  <nd ref="12078364166"/>
+  <nd ref="12077238630"/>
+  <nd ref="12076530518"/>
+  <nd ref="12076530519"/>
+  <nd ref="12077280062"/>
+  <nd ref="12076530514"/>
+  <tag k="building" v="college"/>
+  <tag k="name" v="Block B"/>
+ </way>
+ <way id="1304039182" visible="true" version="4" changeset="158984692" timestamp="2024-11-10T20:33:01Z" user="foolyaar" uid="21729038">
+  <nd ref="12076551614"/>
+  <nd ref="12076973492"/>
+  <nd ref="12076973488"/>
+  <nd ref="12076973489"/>
+  <nd ref="12076973490"/>
+  <nd ref="12076551615"/>
+  <nd ref="12076551616"/>
+  <nd ref="12076551618"/>
+  <nd ref="12076551620"/>
+  <nd ref="12076551621"/>
+  <nd ref="12076551622"/>
+  <nd ref="12076551623"/>
+  <nd ref="12076551624"/>
+  <nd ref="12076973491"/>
+  <nd ref="12076551625"/>
+  <nd ref="12076551614"/>
+  <tag k="building" v="college"/>
+  <tag k="name" v="Block C"/>
+ </way>
+ <way id="1304093559" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="12077006598"/>
+  <nd ref="12077006599"/>
+  <nd ref="12077006600"/>
+  <nd ref="12077006601"/>
+  <nd ref="12077006598"/>
+  <tag k="building" v="yes"/>
+  <tag k="name" v="Girls Hostel"/>
+  <tag k="tourism" v="hostel"/>
+ </way>
+ <way id="1304093560" visible="true" version="5" changeset="158984692" timestamp="2024-11-10T20:33:01Z" user="foolyaar" uid="21729038">
+  <nd ref="12077006602"/>
+  <nd ref="12077006603"/>
+  <nd ref="12077006604"/>
+  <nd ref="12077006605"/>
+  <nd ref="12077006606"/>
+  <nd ref="12077006607"/>
+  <nd ref="12077006609"/>
+  <nd ref="12077006611"/>
+  <nd ref="12077006612"/>
+  <nd ref="12077006602"/>
+  <tag k="building" v="yes"/>
+  <tag k="name" v="Boys Hostel"/>
+  <tag k="tourism" v="hostel"/>
+ </way>
+ <way id="1304094840" visible="true" version="4" changeset="156015154" timestamp="2024-08-31T13:26:00Z" user="foolyaar" uid="21729038">
+  <nd ref="12077020945"/>
+  <nd ref="12077020946"/>
+  <nd ref="12079554402"/>
+  <tag k="footway" v="sidewalk"/>
+  <tag k="highway" v="footway"/>
+ </way>
+ <way id="1304094841" visible="true" version="7" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="12077020948"/>
+  <nd ref="12078405776"/>
+  <nd ref="12077020949"/>
+  <tag k="footway" v="sidewalk"/>
+  <tag k="highway" v="footway"/>
+ </way>
+ <way id="1304102148" visible="true" version="5" changeset="156805244" timestamp="2024-09-19T07:22:02Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="312716401"/>
+  <nd ref="8145702975"/>
+  <nd ref="3756784622"/>
+  <nd ref="8145702973"/>
+  <nd ref="3755585709"/>
+  <nd ref="3756753008"/>
+  <nd ref="8145702903"/>
+  <tag k="highway" v="residential"/>
+ </way>
+ <way id="1304123441" visible="true" version="7" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038">
+  <nd ref="12077238614"/>
+  <nd ref="12077238615"/>
+  <nd ref="12077238616"/>
+  <nd ref="12077238617"/>
+  <nd ref="12077238618"/>
+  <nd ref="12077238614"/>
+  <tag k="landuse" v="recreation_ground"/>
+  <tag k="name" v="Futsal"/>
+ </way>
+ <way id="1304123442" visible="true" version="3" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038">
+  <nd ref="12077238619"/>
+  <nd ref="12077238620"/>
+  <nd ref="12077238621"/>
+  <nd ref="12077238622"/>
+  <nd ref="12077238619"/>
+  <tag k="landuse" v="recreation_ground"/>
+  <tag k="name" v="Basketball"/>
+ </way>
+ <way id="1304123443" visible="true" version="6" changeset="158984736" timestamp="2024-11-10T20:34:40Z" user="foolyaar" uid="21729038">
+  <nd ref="12077238623"/>
+  <nd ref="12077238624"/>
+  <nd ref="12077020949"/>
+  <nd ref="12077238625"/>
+  <nd ref="12077238626"/>
+  <nd ref="12083790012"/>
+  <nd ref="12083790011"/>
+  <nd ref="12077238627"/>
+  <nd ref="12077238628"/>
+  <nd ref="12077238629"/>
+  <nd ref="12083790014"/>
+  <nd ref="12077238623"/>
+  <tag k="landuse" v="recreation_ground"/>
+  <tag k="name" v="Ground"/>
+ </way>
+ <way id="1304123444" visible="true" version="9" changeset="156293462" timestamp="2024-09-06T21:47:11Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="7920294811"/>
+  <nd ref="7920294810"/>
+  <nd ref="7920294806"/>
+  <nd ref="12077301988"/>
+  <nd ref="7920294807"/>
+  <nd ref="7920294808"/>
+  <nd ref="12076530517"/>
+  <nd ref="7920294809"/>
+  <nd ref="12077280063"/>
+  <nd ref="7920294811"/>
+  <tag k="landuse" v="education"/>
+  <tag k="name" v="G H R C E M"/>
+ </way>
+ <way id="1304127270" visible="true" version="5" changeset="156293502" timestamp="2024-09-06T21:48:58Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="12077301979"/>
+  <nd ref="12077301980"/>
+  <nd ref="12077301981"/>
+  <nd ref="12077301982"/>
+  <nd ref="12077301979"/>
+  <tag k="amenity" v="place_of_worship"/>
+  <tag k="building" v="yes"/>
+  <tag k="religion" v="hindu"/>
+ </way>
+ <way id="1304127271" visible="true" version="6" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038">
+  <nd ref="12077020945"/>
+  <nd ref="12077301984"/>
+  <nd ref="12077301985"/>
+  <nd ref="12077301986"/>
+  <nd ref="12077020945"/>
+  <tag k="leisure" v="park"/>
+  <tag k="name" v="Sitting Area"/>
+ </way>
+ <way id="1304127272" visible="true" version="1" changeset="154496120" timestamp="2024-07-27T18:41:42Z" user="foolyaar" uid="21729038">
+  <nd ref="12077301991"/>
+  <nd ref="12077301988"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1304127273" visible="true" version="4" changeset="158984736" timestamp="2024-11-10T20:34:40Z" user="foolyaar" uid="21729038">
+  <nd ref="12077020949"/>
+  <nd ref="12077238624"/>
+  <nd ref="12077238623"/>
+  <nd ref="12077301989"/>
+  <nd ref="12077301990"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1304127923" visible="true" version="3" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="12077255036"/>
+  <nd ref="12077255037"/>
+  <nd ref="12077255038"/>
+  <tag k="highway" v="path"/>
+  <tag k="informal" v="yes"/>
+ </way>
+ <way id="1304253541" visible="true" version="2" changeset="156015154" timestamp="2024-08-31T13:26:00Z" user="foolyaar" uid="21729038">
+  <nd ref="12077255036"/>
+  <nd ref="8145702987"/>
+  <nd ref="8145702986"/>
+  <nd ref="3755585704"/>
+  <tag k="footway" v="sidewalk"/>
+  <tag k="highway" v="footway"/>
+  <tag k="source" v="maxar"/>
+ </way>
+ <way id="1304254336" visible="true" version="9" changeset="156293462" timestamp="2024-09-06T21:47:11Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="7920294809"/>
+  <nd ref="12076530517"/>
+  <nd ref="12076530516"/>
+  <nd ref="7920294808"/>
+  <nd ref="7920294807"/>
+  <nd ref="7920294806"/>
+  <nd ref="7920294810"/>
+  <nd ref="8145702977"/>
+  <nd ref="7920294811"/>
+  <nd ref="12077280063"/>
+  <nd ref="7920294809"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1304254969" visible="true" version="6" changeset="156293462" timestamp="2024-09-06T21:47:11Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="12078364165"/>
+  <nd ref="12078364166"/>
+  <nd ref="12160870984"/>
+  <nd ref="12160870983"/>
+  <nd ref="12078364165"/>
+  <tag k="leisure" v="park"/>
+ </way>
+ <way id="1304254977" visible="true" version="4" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038">
+  <nd ref="12078405769"/>
+  <nd ref="12078405770"/>
+  <nd ref="12078405771"/>
+  <nd ref="12315830081"/>
+  <nd ref="12078405772"/>
+  <nd ref="12078405769"/>
+  <tag k="building" v="yes"/>
+  <tag k="name" v="Workshop"/>
+  <tag k="shop" v="trade"/>
+ </way>
+ <way id="1304254978" visible="true" version="4" changeset="156293502" timestamp="2024-09-06T21:48:58Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="12078405773"/>
+  <nd ref="12078405774"/>
+  <nd ref="12078405775"/>
+  <nd ref="12078405776"/>
+  <nd ref="12078405773"/>
+  <tag k="building" v="yes"/>
+  <tag k="military" v="office"/>
+ </way>
+ <way id="1304285835" visible="true" version="5" changeset="156293462" timestamp="2024-09-06T21:47:11Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="7920294808"/>
+  <nd ref="12076530517"/>
+  <nd ref="7920294809"/>
+  <tag k="barrier" v="city_wall"/>
+ </way>
+ <way id="1304285836" visible="true" version="6" changeset="156293462" timestamp="2024-09-06T21:47:11Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="7920294811"/>
+  <nd ref="7920294810"/>
+  <nd ref="7920294806"/>
+  <nd ref="12077301988"/>
+  <nd ref="7920294807"/>
+  <nd ref="7920294808"/>
+  <nd ref="12076510173"/>
+  <nd ref="12076530516"/>
+  <nd ref="12076530517"/>
+  <nd ref="7920294809"/>
+  <nd ref="7920294811"/>
+  <tag k="barrier" v="city_wall"/>
+ </way>
+ <way id="1304705715" visible="true" version="1" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110">
+  <nd ref="12083790015"/>
+  <nd ref="12083790016"/>
+  <nd ref="12083790017"/>
+  <nd ref="12083790018"/>
+  <nd ref="12083790015"/>
+  <tag k="amenity" v="motorcycle_parking"/>
+  <tag k="name" v="Students Parking"/>
+ </way>
+ <way id="1304705716" visible="true" version="1" changeset="154620148" timestamp="2024-07-30T19:05:35Z" user="cool tower" uid="21792110">
+  <nd ref="12083790019"/>
+  <nd ref="12083790020"/>
+  <nd ref="12083790021"/>
+  <nd ref="12083790022"/>
+  <nd ref="12083790019"/>
+  <tag k="amenity" v="motorcycle_parking"/>
+  <tag k="name" v="Staff Parking"/>
+ </way>
+ <way id="1304706773" visible="true" version="5" changeset="156293410" timestamp="2024-09-06T21:44:35Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="8145702988"/>
+  <nd ref="12147772909"/>
+  <nd ref="12083826910"/>
+  <tag k="footway" v="sidewalk"/>
+  <tag k="highway" v="footway"/>
+ </way>
+ <way id="1304831316" visible="true" version="6" changeset="156293797" timestamp="2024-09-06T22:01:39Z" user="Spaghetti Monster🍝" uid="8758904">
+  <nd ref="7920294809"/>
+  <nd ref="12076530517"/>
+  <nd ref="12076510173"/>
+  <nd ref="7920294808"/>
+  <nd ref="7920294807"/>
+  <nd ref="12077301988"/>
+  <nd ref="7920294806"/>
+  <nd ref="7920294810"/>
+  <nd ref="7920294811"/>
+  <nd ref="7920294809"/>
+  <tag k="name" v="G H R C E M"/>
+  <tag k="office" v="educational_institution"/>
+ </way>
+ <way id="1314688114" visible="true" version="3" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038">
+  <nd ref="12168500662"/>
+  <nd ref="12168500663"/>
+  <nd ref="12168500664"/>
+  <nd ref="12168500665"/>
+  <nd ref="12168500662"/>
+  <tag k="landuse" v="recreation_ground"/>
+  <tag k="name" v="Handball"/>
+ </way>
+ <way id="1316756807" visible="true" version="3" changeset="158789944" timestamp="2024-11-05T18:15:07Z" user="foolyaar" uid="21729038">
+  <nd ref="12083826910"/>
+  <nd ref="3755585704"/>
+  <tag k="highway" v="footway"/>
+ </way>
+ <way id="1316759307" visible="true" version="1" changeset="156835795" timestamp="2024-09-19T18:58:46Z" user="foolyaar" uid="21729038">
+  <nd ref="8145702977"/>
+  <nd ref="12077020948"/>
+  <nd ref="12077020945"/>
+  <nd ref="12186794465"/>
+  <nd ref="12186794466"/>
+  <nd ref="12076510175"/>
+  <nd ref="12083826910"/>
+  <tag k="highway" v="footway"/>
+ </way>
+ <way id="1316759308" visible="true" version="3" changeset="156878484" timestamp="2024-09-20T17:09:44Z" user="foolyaar" uid="21729038">
+  <nd ref="12186794466"/>
+  <nd ref="12186794467"/>
+  <nd ref="12077020946"/>
+  <tag k="highway" v="footway"/>
+ </way>
+ <way id="1316759309" visible="true" version="1" changeset="156835795" timestamp="2024-09-19T18:58:46Z" user="foolyaar" uid="21729038">
+  <nd ref="12186794467"/>
+  <nd ref="12076510174"/>
+  <nd ref="8145702988"/>
+  <tag k="highway" v="footway"/>
+ </way>
+ <way id="1331094798" visible="true" version="2" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038">
+  <nd ref="12315830076"/>
+  <nd ref="12315830077"/>
+  <nd ref="12315830078"/>
+  <nd ref="12076973492"/>
+  <nd ref="12076973488"/>
+  <nd ref="12076973489"/>
+  <nd ref="12076551615"/>
+  <nd ref="12315830076"/>
+  <tag k="leisure" v="garden"/>
+  <tag k="name" v="Green GYM"/>
+ </way>
+ <way id="1331094799" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038">
+  <nd ref="12315830080"/>
+  <nd ref="12315830081"/>
+  <tag k="footway" v="sidewalk"/>
+  <tag k="highway" v="footway"/>
+ </way>
+ <way id="1331094800" visible="true" version="2" changeset="158867117" timestamp="2024-11-07T18:15:47Z" user="foolyaar" uid="21729038">
+  <nd ref="12315830082"/>
+  <nd ref="12315830083"/>
+  <nd ref="12315830084"/>
+  <nd ref="12315830085"/>
+  <nd ref="12315830086"/>
+  <nd ref="12315830087"/>
+  <nd ref="12315830088"/>
+  <nd ref="12315830089"/>
+  <nd ref="12315830090"/>
+  <nd ref="12315830091"/>
+  <nd ref="12315830093"/>
+  <nd ref="12315830095"/>
+  <nd ref="12315830082"/>
+  <tag k="building" v="yes"/>
+  <tag k="name" v="Training Centre"/>
+  <tag k="shop" v="trade"/>
+ </way>
+ <way id="1331094801" visible="true" version="1" changeset="158789841" timestamp="2024-11-05T18:12:00Z" user="foolyaar" uid="21729038">
+  <nd ref="12315830096"/>
+  <nd ref="12315830097"/>
+  <nd ref="12315830098"/>
+  <nd ref="12315830099"/>
+  <nd ref="12315830096"/>
+  <tag k="bus" v="yes"/>
+  <tag k="name" v="Bus Area"/>
+  <tag k="public_transport" v="platform"/>
+ </way>
+ <way id="1537929854" visible="true" version="1" changeset="185639404" timestamp="2026-07-13T09:01:01Z" user="PrernaJadhav" uid="24261318">
+  <nd ref="14008147559"/>
+  <nd ref="14008147560"/>
+  <nd ref="14008147561"/>
+  <nd ref="14008147562"/>
+  <nd ref="14008147559"/>
+  <tag k="building" v="yes"/>
+ </way>
+</osm>

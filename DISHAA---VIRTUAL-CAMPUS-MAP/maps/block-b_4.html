@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/x-icon" href="new favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOCK B - 4th Floor</title>
+    
+    <canvas id="directionCanvas" style="position: absolute; top: 0; left: 0; pointer-events: none;"></canvas>
+    <link rel="stylesheet" href="style-b_4.css">
+</head>
+
+<body>
+
+    <div class="floor-plan-container">
+        <img src="Untitled design (3).jpg" alt="Floor Plan" class="floor-plan-image">
+        <div id="lines-container"></div>
+        <button id="close-directions-btn" onclick="closeDirections()" style="display: none; position:absolute; top: 75%; left: 40%;">Close Directions </button>
+        <!-- Positioned here -->
+        <button id="search-btn" onclick="openSearchOverlay()">SEARCH 🔍</button>
+        <button id="back-btn" onclick="window.location.href='../index.html'" style="position:absolute; top: 75%; left: 45%; ;">Back↩️</button>
+    </div>
+    <!-- Overlay for Search Options -->
+    <div id="search-overlay" class="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" onclick="closeSearchOverlay()">✕</button>
+            <h2>Search Options</h2>
+            <button id="faculty" onclick="showFacultySearch()">Faculty 👤</button>
+        <!--   <button id="room" onclick="showRoomSearch()">Room 🏠</button> -->
+           <button id="by-room-no-btn" onclick="showRoomByNumber()"> Room No. 🔢</button>
+           <button id="by-room-name-btn" onclick="showRoomByName()"> Room Name 🏷️</button>
+
+       
+
+            <!-- Faculty Search Section -->
+            <div id="faculty-search-section" style="display: none;">
+                <input type="text" id="faculty-search-box" placeholder="Enter faculty name..."
+                    oninput="filterFacultySuggestions()">
+                <ul id="faculty-suggestions" style="list-style-type: none; padding: 0;"></ul>
+                <button onclick="searchFaculty()">SEARCH 🔍</button>
+            </div>
+
+            <!-- Room Search Section -->
+            <div id="room-search-section" style="display: none;">
+                <h3>Search By:</h3>
+                <button id="by-room-no-btn" onclick="showRoomByNumber()">By Room No. 🔢</button>
+                <button id="by-room-name-btn" onclick="showRoomByName()">By Room Name 🏷️</button>
+            </div>
+
+            <!-- Room Number Search Section -->
+            <div id="room-number-search-section" style="display: none;">
+                <input type="text" id="room-number-search-box" placeholder="Enter room number..."
+                    oninput="filterRoomNumberSuggestions()">
+                <ul id="room-number-suggestions" style="list-style-type: none; padding: 0;"></ul>
+                <button onclick="searchRoomByNumber()">SEARCH 🔍</button>
+            </div>
+
+            <!-- Room Name Search Section -->
+            <div id="room-name-search-section" style="display: none;">
+                <input type="text" id="room-name-search-box" placeholder="Enter room name..."
+                    oninput="filterRoomNameSuggestions()">
+                <ul id="room-name-suggestions" style="list-style-type: none; padding: 0;"></ul>
+                <button onclick="searchRoomByName()">SEARCH 🔍</button>
+            </div>
+
+            <!-- Message Display Section -->
+            <div id="search-message" style="margin-top: 20px; color: red;"></div> <!-- Message area -->
+        </div>
+    </div>
+
+
+    <!-- Note below the map -->
+    <div class="note">
+        Click the HOTSPOTS to access room functionality
+    </div>
+
+    <!-- Overlay for pop-up information -->
+    <div id="overlay" class="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" onclick="closeOverlay()">✕</button>
+            <p id="overlay-text">Hotspot Information</p>
+            <p id="room-name" style="margin-top: 10px;"></p> <!-- New paragraph for room name -->
+
+            <!-- Options -->
+            <div id="options" style="margin-top: 20px;">
+                <button id="info" onclick="showInfo()">Info 🗒️</button>
+                <button id="faculti" onclick="showFaculty()">Faculty 👤</button>
+                <button id="pic" onclick="showPhotos()">Photos 📸</button>
+                <button id="dir" onclick="showDirections()">Directions 🚦</button> <!-- Replace 'Other' with your desired option -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay for Not Available message -->
+    <div id="not-available-overlay" class="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" onclick="closeNotAvailableOverlay()">✕</button>
+            <p>Not available 🤐</p>
+        </div>
+    </div>
+
+    <!-- Overlay for Directions -->
+    <div id="directions-overlay" class="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" onclick="closeDirectionsOverlay()">✕</button>
+            <h2>Get Directions</h2>
+            <p>Start Location: <span id="start-location"></span></p>
+            <label for="end-location">End Location:</label>
+            <select id="end-location">
+                <option value="">Select a room</option>
+                <!-- Options will be populated by JavaScript -->
+            </select>
+            <button onclick="getDirections()">Get Directions ✅</button>
+            <button id="close-directions-btn" onclick="closeDirections()" style="display: none;">Close
+                Directions</button> <!-- Close Directions Button -->
+        </div>
+    </div>
+
+    <!-- Overlay for Faculty Information -->
+    <div id="faculty-overlay" class="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" onclick="closeFacultyOverlay()">✕</button>
+            <h2>Faculty Information</h2>
+            <div id="faculty-info-container" style="max-height: 400px; overflow-y: auto;">
+                <p id="faculty-info">Loading...</p> <!-- Default message will be replaced here -->
+            </div>
+        </div>
+    </div>
+    <div id="photos-overlay" class="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" onclick="closePhotosOverlay()">✕</button>
+            <h2>Room Photos</h2>
+            <div id="photos-container"></div> <!-- Container for photos -->
+            <div id="no-photos-message" style="display: none; color: red;"></div> <!-- Message for no photos -->
+        </div>
+    </div>
+
+
+    <button id="close-zoom-btn" onclick="resetZoom()" style="display: none;">Close ❌</button>
+
+ 
+
+
+<!-- Overlay for Image Display -->
+<div id="image-overlay" class="overlay active">
+    <div class="overlay-content">
+        <button class="close-btn" onclick="closeImageOverlay()">✕</button>
+        <img id="displayed-image" src="Add a subheading.jpg" alt="Displayed Image">
+    </div>
+       <!-- Note above the initial image -->
+<div id="initial-note" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); color: white; font-size: 18px; text-align: center; z-index: 1001;">
+    Click the ❌ button to access the floor map
+</div>
+</div>
+    <script src="script-b_4.js"></script>
+
+</body>
+
+</html>
