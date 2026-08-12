@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CampusMap } from './components/map/CampusMap';
+import { AssistantWidget } from './components/assistant/AssistantWidget';
 import { IndoorMapDialog } from './components/layout/IndoorMapDialog';
 import { AppShell } from './components/layout/AppShell';
 import { Header } from './components/layout/Header';
 import { Toast } from './components/layout/Toast';
-import { NavigationPanel, CURRENT_LOCATION } from './components/navigation/NavigationPanel';
+import { NavigationPanel, CURRENT_LOCATION, MAP_ORIGIN, MAP_DESTINATION } from './components/navigation/NavigationPanel';
 import { NearbyPlaces } from './components/places/NearbyPlaces';
 import { PlaceDetails } from './components/places/PlaceDetails';
 import { CategoryFilters } from './components/search/CategoryFilters';
@@ -15,7 +16,11 @@ import { useNavigation } from './hooks/useNavigation';
 import { useNearbyPlaces } from './hooks/useNearbyPlaces';
 import { usePlaceDetails } from './hooks/usePlaceDetails';
 import { usePlaces } from './hooks/usePlaces';
-import type { Place } from './types';
+import type { AssistantActions } from './hooks/useAssistant';
+import type { NavPoint } from './hooks/useNavigation';
+import { placesApi } from './services/api/placesApi';
+import type { Coordinates, PinPoint, Place } from './types';
+import { findNearestPlace } from './utils/geo';
 import { decodePolyline } from './utils/polyline';
 
 interface ToastState {
@@ -26,12 +31,15 @@ interface ToastState {
 export default function App() {
   const { places, visiblePlaces, category, setCategory, isLoading: arePlacesLoading, error: placesError, reload } = usePlaces();
   const serviceIsOnline = useHealth();
-  const { coordinates: currentLocation, isLocating, error: locationError, requestLocation } = useGeolocation();
+  const { coordinates: currentLocation, accuracy: locationAccuracy, isLocating, error: locationError, requestLocation } = useGeolocation();
   const { places: nearbyPlaces, findNearby } = useNearbyPlaces();
   const { route, isLoading: isCalculatingRoute, error: navigationError, calculateRoute, clearRoute } = useNavigation();
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const selectedPlaceDetail = usePlaceDetails(selectedPlace?.id);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const [originPin, setOriginPin] = useState<PinPoint | null>(null);
+  const [destinationPin, setDestinationPin] = useState<PinPoint | null>(null);
+  const [selectTarget, setSelectTarget] = useState<'origin' | 'destination' | null>(null);
   const [isIndoorMapsOpen, setIsIndoorMapsOpen] = useState(false);
   const [mapResetVersion, setMapResetVersion] = useState(0);
   const [toast, setToast] = useState<ToastState | null>(null);
@@ -50,6 +58,12 @@ export default function App() {
     return () => window.clearTimeout(timer);
   }, [toast]);
 
+  // Show a crosshair cursor over the map while a map-point selection is armed.
+  useEffect(() => {
+    document.body.classList.toggle('dishaa-selecting', selectTarget !== null);
+    return () => document.body.classList.remove('dishaa-selecting');
+  }, [selectTarget]);
+
   const selectPlace = useCallback((place: Place) => {
     setSelectedPlace(place);
   }, []);
@@ -66,33 +80,49 @@ export default function App() {
     }
   }, [findNearby, requestLocation]);
 
+  const resolveOrigin = useCallback((originId: string): NavPoint | null => {
+    if (originId === CURRENT_LOCATION) {
+      return currentLocation ? { kind: 'current', coordinates: currentLocation } : null;
+    }
+    if (originId === MAP_ORIGIN) {
+      if (!originPin) return null;
+      return originPin.place
+        ? { kind: 'place', place: originPin.place }
+        : { kind: 'pin', coordinates: originPin.coordinates, label: 'Selected start' };
+    }
+    const place = places.find((item) => item.id === originId);
+    return place ? { kind: 'place', place } : null;
+  }, [currentLocation, originPin, places]);
+
+  const resolveDestination = useCallback((destinationId: string): NavPoint | null => {
+    if (destinationId === MAP_DESTINATION) {
+      if (!destinationPin) return null;
+      return destinationPin.place
+        ? { kind: 'place', place: destinationPin.place }
+        : { kind: 'pin', coordinates: destinationPin.coordinates, label: 'Selected location' };
+    }
+    const place = places.find((item) => item.id === destinationId);
+    return place ? { kind: 'place', place } : null;
+  }, [destinationPin, places]);
+
   const startNavigation = useCallback(async (originId: string, destinationId: string) => {
-    const destination = places.find((place) => place.id === destinationId);
+    const destination = resolveDestination(destinationId);
     if (!destination) {
       setToast({ message: 'Choose a destination to start navigation.', isError: true });
       return;
     }
-
-    if (originId === CURRENT_LOCATION) {
-      if (!currentLocation) {
-        setToast({ message: 'Use your current location before starting this route.', isError: true });
-        return;
-      }
-      await calculateRoute({ kind: 'current', coordinates: currentLocation }, destination);
+    const origin = resolveOrigin(originId);
+    if (!origin) {
+      setToast({
+        message: originId === CURRENT_LOCATION
+          ? 'Use your current location before starting this route.'
+          : 'Choose where you are starting from.',
+        isError: true,
+      });
       return;
     }
-
-    const originPlace = places.find((place) => place.id === originId);
-    if (!originPlace) {
-      setToast({ message: 'Choose where you are starting from.', isError: true });
-      return;
-    }
-    if (originPlace.id === destination.id) {
-      setToast({ message: 'Choose two different campus locations.', isError: true });
-      return;
-    }
-    await calculateRoute({ kind: 'place', place: originPlace }, destination);
-  }, [calculateRoute, currentLocation, places]);
+    await calculateRoute(origin, destination);
+  }, [calculateRoute, resolveDestination, resolveOrigin]);
 
   const openNavigationForSelectedPlace = useCallback(() => {
     if (selectedPlace) setIsNavigationOpen(true);
@@ -101,7 +131,97 @@ export default function App() {
   const clearActiveRoute = useCallback(() => {
     clearRoute();
     setIsNavigationOpen(false);
+    setOriginPin(null);
+    setDestinationPin(null);
+    setSelectTarget(null);
   }, [clearRoute]);
+
+  const pickOnMap = useCallback((target: 'origin' | 'destination') => {
+    setSelectTarget(target);
+    setToast({
+      message: target === 'origin'
+        ? 'Tap the map to set your start point.'
+        : 'Tap the map to choose your destination.',
+      isError: false,
+    });
+  }, []);
+
+  // Map background clicks drop a start or destination pin, matched to a real
+  // campus POI when one is close enough. Never invents place data.
+  const handleMapClick = useCallback((coordinates: Coordinates) => {
+    const place = findNearestPlace(coordinates, places, 25);
+    const pin: PinPoint = { coordinates, place };
+    if (selectTarget === 'origin') {
+      setOriginPin(pin);
+      setToast({ message: place ? `Start set to ${place.name}.` : 'Start point set on the map.', isError: false });
+    } else {
+      setDestinationPin(pin);
+    }
+    setSelectTarget(null);
+    setIsNavigationOpen(true);
+  }, [places, selectTarget]);
+
+  const setPinAsDestination = useCallback(() => {
+    setSelectTarget(null);
+    setIsNavigationOpen(true);
+    setToast({ message: 'Destination set. Start navigation when ready.', isError: false });
+  }, []);
+
+  const navigateFromPin = useCallback(async () => {
+    if (!destinationPin) return;
+    const destination: NavPoint = destinationPin.place
+      ? { kind: 'place', place: destinationPin.place }
+      : { kind: 'pin', coordinates: destinationPin.coordinates, label: 'Selected location' };
+
+    let origin: NavPoint | null = null;
+    if (originPin) {
+      origin = originPin.place
+        ? { kind: 'place', place: originPin.place }
+        : { kind: 'pin', coordinates: originPin.coordinates, label: 'Selected start' };
+    } else {
+      const coordinates = currentLocation ?? (await requestLocation());
+      if (!coordinates) {
+        setToast({ message: 'Enable location or pick a start point on the map.', isError: true });
+        return;
+      }
+      origin = { kind: 'current', coordinates };
+    }
+
+    setIsNavigationOpen(true);
+    await calculateRoute(origin, destination);
+  }, [calculateRoute, currentLocation, destinationPin, originPin, requestLocation]);
+
+  // Real backend-backed actions exposed to the DISHAA assistant. A future AI
+  // agent drives this exact surface; nothing here uses mock campus data.
+  const navigateFromAssistant = useCallback(async (destination: Place) => {
+    setSelectedPlace(destination);
+    let origin = currentLocation;
+    if (!origin) origin = await requestLocation();
+    if (!origin) {
+      setIsNavigationOpen(true);
+      setToast({ message: 'Enable location to walk there, or pick a start point.', isError: true });
+      return;
+    }
+    setIsNavigationOpen(true);
+    await calculateRoute({ kind: 'current', coordinates: origin }, { kind: 'place', place: destination });
+  }, [calculateRoute, currentLocation, requestLocation]);
+
+  const assistantActions = useMemo<AssistantActions>(() => ({
+    searchPlaces: async (query: string) => {
+      const response = await placesApi.search(query);
+      return response.results;
+    },
+    showPlace: (place: Place) => {
+      setIsNavigationOpen(false);
+      setSelectedPlace(place);
+    },
+    navigateTo: navigateFromAssistant,
+    findNearby: async () => {
+      const coordinates = await requestLocation();
+      if (!coordinates) throw new Error('location-unavailable');
+      return findNearby(coordinates);
+    },
+  }), [findNearby, navigateFromAssistant, requestLocation]);
 
   return (
     <AppShell>
@@ -109,10 +229,16 @@ export default function App() {
         places={visiblePlaces}
         selectedPlace={selectedPlace}
         currentLocation={currentLocation}
+        locationAccuracy={locationAccuracy}
+        originPin={originPin}
+        destinationPin={destinationPin}
         route={route}
         routeCoordinates={routeCoordinates}
         resetVersion={mapResetVersion}
         onSelectPlace={selectPlace}
+        onMapClick={handleMapClick}
+        onSetDestination={setPinAsDestination}
+        onNavigate={() => void navigateFromPin()}
       />
 
       <Header
@@ -158,20 +284,33 @@ export default function App() {
         {isNavigationOpen && (
           <NavigationPanel
             places={places}
-            destinationId={selectedPlace?.id}
             currentLocation={currentLocation}
+            originPinLabel={originPin ? (originPin.place ? originPin.place.name : 'Selected map point') : null}
+            destinationPinLabel={destinationPin ? (destinationPin.place ? destinationPin.place.name : 'Selected map point') : null}
+            defaultDestinationId={destinationPin ? MAP_DESTINATION : (selectedPlace?.id ?? '')}
+            selectTarget={selectTarget}
             route={route}
             isCalculating={isCalculatingRoute}
             error={navigationError}
+            onPickOnMap={pickOnMap}
             onStart={(originId, destinationId) => void startNavigation(originId, destinationId)}
             onClear={clearActiveRoute}
           />
         )}
       </aside>
 
+      {selectTarget && (
+        <div className="map-select-hint" role="status">
+          <span>{selectTarget === 'origin' ? 'Tap the map to set your start point' : 'Tap the map to choose your destination'}</span>
+          <button type="button" onClick={() => setSelectTarget(null)}>Cancel</button>
+        </div>
+      )}
+
       <div className="map-controls" aria-label="Map controls">
         <button className="map-control" type="button" title="Reset campus view" aria-label="Reset campus view" onClick={() => setMapResetVersion((version) => version + 1)}>⌂</button>
       </div>
+
+      <AssistantWidget actions={assistantActions} />
 
       <Toast message={toast?.message || null} isError={toast?.isError} />
       {isIndoorMapsOpen && <IndoorMapDialog onClose={() => setIsIndoorMapsOpen(false)} />}

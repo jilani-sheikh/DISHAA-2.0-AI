@@ -18,6 +18,12 @@ export interface Place {
   hasGeometry?: boolean;
 }
 
+/** A point chosen directly on the map, optionally matched to a real POI. */
+export interface PinPoint {
+  coordinates: Coordinates;
+  place: Place | null;
+}
+
 export interface PlaceDetail extends Place {
   geometry: unknown | null;
   metadata: {
