@@ -222,7 +222,14 @@ export default function App() {
       if (!coordinates) throw new Error('location-unavailable');
       return findNearby(coordinates);
     },
-  }), [findNearby, navigateFromAssistant, requestLocation]);
+    getContext: () => ({
+      currentLocation,
+      currentPlace: selectedPlace ?? (currentLocation ? findNearestPlace(currentLocation, places, 50) ?? null : null),
+      destination: destinationPin?.place ?? selectedPlace ?? null,
+      navigationActive: Boolean(route),
+      route: route ?? null,
+    }),
+  }), [currentLocation, destinationPin, findNearby, navigateFromAssistant, places, requestLocation, route, selectedPlace]);
 
   return (
     <AppShell>

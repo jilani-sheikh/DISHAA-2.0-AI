@@ -5,8 +5,10 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 const mongoose = require('mongoose');
 const { checkValhallaHealth } = require('./services/valhallaService');
+const { getOllamaHealth } = require('./services/ollamaService');
 const placeRoutes = require('./routes/placeRoutes');
 const navigationRoutes = require('./routes/navigationRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 
 const app = express();
 
@@ -23,6 +25,7 @@ app.get('/api/health', async (req, res) => {
   const dbStatus = dbStateMap[dbState] || 'unknown';
 
   const valhallaStatus = await checkValhallaHealth();
+  const aiStatus = await getOllamaHealth();
 
   return res.status(200).json({
     status: 'ok',
@@ -31,6 +34,8 @@ app.get('/api/health', async (req, res) => {
     database: dbStatus,
     valhalla: valhallaStatus.available ? 'available' : 'unavailable',
     valhallaMessage: valhallaStatus.message,
+    ai: aiStatus.available ? 'available' : 'unavailable',
+    aiMessage: aiStatus.message,
     timestamp: new Date().toISOString(),
   });
 });
@@ -38,6 +43,7 @@ app.get('/api/health', async (req, res) => {
 // ─── API Routes ──────────────────────────────────────────────────────────────
 app.use('/api/places', placeRoutes);
 app.use('/api/navigation', navigationRoutes);
+app.use('/api/assistant', aiRoutes);
 
 // ─── 404 Handler ────────────────────────────────────────────────────────────
 app.use((req, res) => {
