@@ -49,8 +49,7 @@ export function LandingHeader({ onLaunchMap, onNavigate, onFacultyPortal }: Land
   return (
     <header className={`lp-header ${isScrolled ? 'is-scrolled' : ''}`}>
       <div className="lp-container lp-header-inner">
-        <button type="button" className="lp-brand" onClick={() => go('top')} aria-label="DISHAA home">
-          <span className="lp-brand-mark" aria-hidden="true">D</span>
+        <button type="button" className="lp-brand" onClick={() => go('top')} aria-label="Raisoni Education home">
           <span className="lp-brand-text">
             <span className="lp-brand-name">raisoni</span>
             <span className="lp-brand-sub">Education</span>

@@ -1,4 +1,4 @@
-import { IconArrowRight, IconChat, IconLocation, IconNavigation, IconRoute, IconSparkle } from './icons';
+import { IconArrowRight, IconChat, IconLocation, IconSparkle } from './icons';
 
 const HERO_IMAGE = '/CLG.jpeg';
 
@@ -11,21 +11,21 @@ interface HeroProps {
 export function Hero({ onLaunchMap, onAskAssistant, onFacultyPortal }: HeroProps) {
   return (
     <section className="lp-hero" id="top">
-      <div className="lp-container lp-hero-grid">
+      <div className="lp-container lp-hero-inner">
         <div className="lp-hero-copy">
           <span className="lp-badge">
-            <IconSparkle size={15} />
+            <IconSparkle size={14} />
             Smarter way to navigate
+            <IconSparkle size={14} />
           </span>
 
-          <h1 className="lp-hero-title lp-gradient-text">DISHAA</h1>
+          <h1 className="lp-hero-title">DISHAA</h1>
           <p className="lp-hero-sub">
-            Your Smart Virtual <span className="lp-gradient-text">Campus Navigator</span>
+            Your Smart Virtual <span className="lp-hero-accent">Campus Navigator</span>
           </p>
           <p className="lp-hero-desc">
-            Explore the Raisoni Education campus with interactive maps, real-time pedestrian
-            navigation, and AI-powered assistance built for G H Raisoni College of Engineering
-            and Management.
+            Explore the Raisoni Education campus with interactive maps, real-time
+            navigation, and AI-powered assistance.
           </p>
 
           <div className="lp-hero-actions">
@@ -44,40 +44,28 @@ export function Hero({ onLaunchMap, onAskAssistant, onFacultyPortal }: HeroProps
           </button>
         </div>
 
-        <div className="lp-hero-visual">
-          <div className="lp-hero-frame">
-            <img src={HERO_IMAGE || '/placeholder.svg'} alt="G H Raisoni College of Engineering and Management campus" />
+        <div className="lp-hero-visual" aria-hidden="true">
+          <img
+            className="lp-hero-photo"
+            src={HERO_IMAGE || '/placeholder.svg'}
+            alt="G H Raisoni College of Engineering and Management campus"
+          />
+          <span className="lp-hero-fade" />
 
-            <svg className="lp-hero-route" viewBox="0 0 400 320" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <linearGradient id="lpRouteGrad" x1="0" y1="1" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#c4b5fd" />
-                  <stop offset="100%" stopColor="#ffffff" />
-                </linearGradient>
-              </defs>
-              <path className="lp-route-glow" d="M40 300 C 120 250, 120 190, 210 175 S 300 150, 316 132" />
-              <path className="lp-route-line" d="M40 300 C 120 250, 120 190, 210 175 S 300 150, 316 132" />
-            </svg>
+          <svg className="lp-hero-route" viewBox="0 0 520 420" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="lpRouteGrad" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stopColor="#a855f7" />
+                <stop offset="100%" stopColor="#e9d5ff" />
+              </linearGradient>
+            </defs>
+            <path className="lp-route-glow" d="M60 400 C 190 360, 150 250, 300 240 S 430 210, 470 150" />
+            <path className="lp-route-line" d="M60 400 C 190 360, 150 250, 300 240 S 430 210, 470 150" />
+          </svg>
 
-            <span className="lp-hero-marker" aria-hidden="true">
-              <IconLocation size={22} />
-            </span>
-          </div>
-
-          <div className="lp-hero-chip chip-a" aria-hidden="true">
-            <span className="lp-chip-icon"><IconNavigation size={17} /></span>
-            <span>
-              Live navigation
-              <small>320 m &middot; 4 min walk</small>
-            </span>
-          </div>
-          <div className="lp-hero-chip chip-b" aria-hidden="true">
-            <span className="lp-chip-icon"><IconRoute size={17} /></span>
-            <span>
-              Route found
-              <small>Main Gate &rarr; Library</small>
-            </span>
-          </div>
+          <span className="lp-hero-marker">
+            <IconLocation size={22} />
+          </span>
         </div>
       </div>
     </section>
