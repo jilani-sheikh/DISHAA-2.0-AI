@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CampusMap } from './components/map/CampusMap';
+import { AssistantWidget } from './components/assistant/AssistantWidget';
 import { IndoorMapDialog } from './components/layout/IndoorMapDialog';
 import { AppShell } from './components/layout/AppShell';
 import { Header } from './components/layout/Header';
@@ -15,6 +16,8 @@ import { useNavigation } from './hooks/useNavigation';
 import { useNearbyPlaces } from './hooks/useNearbyPlaces';
 import { usePlaceDetails } from './hooks/usePlaceDetails';
 import { usePlaces } from './hooks/usePlaces';
+import type { AssistantActions } from './hooks/useAssistant';
+import { placesApi } from './services/api/placesApi';
 import type { Place } from './types';
 import { decodePolyline } from './utils/polyline';
 
@@ -26,7 +29,7 @@ interface ToastState {
 export default function App() {
   const { places, visiblePlaces, category, setCategory, isLoading: arePlacesLoading, error: placesError, reload } = usePlaces();
   const serviceIsOnline = useHealth();
-  const { coordinates: currentLocation, isLocating, error: locationError, requestLocation } = useGeolocation();
+  const { coordinates: currentLocation, accuracy: locationAccuracy, isLocating, error: locationError, requestLocation } = useGeolocation();
   const { places: nearbyPlaces, findNearby } = useNearbyPlaces();
   const { route, isLoading: isCalculatingRoute, error: navigationError, calculateRoute, clearRoute } = useNavigation();
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
@@ -103,12 +106,45 @@ export default function App() {
     setIsNavigationOpen(false);
   }, [clearRoute]);
 
+  // Real backend-backed actions exposed to the DISHAA assistant. A future AI
+  // agent drives this exact surface; nothing here uses mock campus data.
+  const navigateFromAssistant = useCallback(async (destination: Place) => {
+    setSelectedPlace(destination);
+    let origin = currentLocation;
+    if (!origin) origin = await requestLocation();
+    if (!origin) {
+      setIsNavigationOpen(true);
+      setToast({ message: 'Enable location to walk there, or pick a start point.', isError: true });
+      return;
+    }
+    setIsNavigationOpen(true);
+    await calculateRoute({ kind: 'current', coordinates: origin }, destination);
+  }, [calculateRoute, currentLocation, requestLocation]);
+
+  const assistantActions = useMemo<AssistantActions>(() => ({
+    searchPlaces: async (query: string) => {
+      const response = await placesApi.search(query);
+      return response.results;
+    },
+    showPlace: (place: Place) => {
+      setIsNavigationOpen(false);
+      setSelectedPlace(place);
+    },
+    navigateTo: navigateFromAssistant,
+    findNearby: async () => {
+      const coordinates = await requestLocation();
+      if (!coordinates) throw new Error('location-unavailable');
+      return findNearby(coordinates);
+    },
+  }), [findNearby, navigateFromAssistant, requestLocation]);
+
   return (
     <AppShell>
       <CampusMap
         places={visiblePlaces}
         selectedPlace={selectedPlace}
         currentLocation={currentLocation}
+        locationAccuracy={locationAccuracy}
         route={route}
         routeCoordinates={routeCoordinates}
         resetVersion={mapResetVersion}
@@ -172,6 +208,8 @@ export default function App() {
       <div className="map-controls" aria-label="Map controls">
         <button className="map-control" type="button" title="Reset campus view" aria-label="Reset campus view" onClick={() => setMapResetVersion((version) => version + 1)}>⌂</button>
       </div>
+
+      <AssistantWidget actions={assistantActions} />
 
       <Toast message={toast?.message || null} isError={toast?.isError} />
       {isIndoorMapsOpen && <IndoorMapDialog onClose={() => setIsIndoorMapsOpen(false)} />}

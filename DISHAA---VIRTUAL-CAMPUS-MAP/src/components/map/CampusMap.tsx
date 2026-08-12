@@ -1,4 +1,4 @@
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
+import { Circle, MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { divIcon } from 'leaflet';
 import type { Coordinates, Place, RouteResponse } from '../../types';
 import { MapViewport, campusCenter, campusZoom } from './MapViewport';
@@ -9,6 +9,7 @@ interface CampusMapProps {
   places: Place[];
   selectedPlace: Place | null;
   currentLocation: Coordinates | null;
+  locationAccuracy: number | null;
   route: RouteResponse | null;
   routeCoordinates: Coordinates[];
   resetVersion: number;
@@ -23,7 +24,7 @@ const currentLocationIcon = divIcon({
 });
 
 export function CampusMap({
-  places, selectedPlace, currentLocation, route, routeCoordinates, resetVersion, onSelectPlace,
+  places, selectedPlace, currentLocation, locationAccuracy, route, routeCoordinates, resetVersion, onSelectPlace,
 }: CampusMapProps) {
   return (
     <MapContainer center={campusCenter} zoom={campusZoom} zoomControl={false} className="campus-map" aria-label="Interactive campus map">
@@ -33,6 +34,13 @@ export function CampusMap({
         maxZoom={20}
       />
       <PlaceMarkers places={places} onSelect={onSelectPlace} />
+      {currentLocation && locationAccuracy && locationAccuracy > 0 && (
+        <Circle
+          center={[currentLocation.lat, currentLocation.lng]}
+          radius={locationAccuracy}
+          pathOptions={{ color: '#3d75b4', weight: 1, opacity: 0.5, fillColor: '#3d75b4', fillOpacity: 0.12 }}
+        />
+      )}
       {currentLocation && <Marker position={[currentLocation.lat, currentLocation.lng]} icon={currentLocationIcon} />}
       <RouteLayer route={route} coordinates={routeCoordinates} />
       <MapViewport selectedPlace={selectedPlace} routeCoordinates={routeCoordinates} resetVersion={resetVersion} />
