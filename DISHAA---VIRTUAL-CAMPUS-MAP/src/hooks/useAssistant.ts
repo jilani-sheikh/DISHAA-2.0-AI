@@ -130,6 +130,19 @@ export function useAssistant(actions: AssistantActions) {
       });
 
       const places = Array.isArray(response.places) ? response.places as Place[] : [];
+
+      // If the backend suggests starting navigation deterministically, trigger
+      // the existing navigation flow in the frontend. This keeps routing in the
+      // canonical Valhalla-backed path and avoids letting the LLM execute code.
+      if (response.action === 'START_NAVIGATION' && places.length > 0) {
+        // Fire-and-forget: let the navigation flow handle location prompts.
+        try {
+          void actionsRef.current.navigateTo?.(places[0]);
+        } catch {
+          // Ignore — the navigation UI will surface issues. Still show the AI text.
+        }
+      }
+
       return makeMessage('assistant', response.response, {
         kind: places.length > 0 ? 'places' : 'text',
         places: places.slice(0, 5),

@@ -209,11 +209,36 @@ const processAssistantMessage = async (input = {}) => {
   const result = await compiledGraph.invoke(state);
   const finalText = result.response || buildFallbackResponse(result);
 
+  // Determine a safe structured action for the frontend. Do not allow arbitrary
+  // commands from the model — derive actions deterministically from the graph
+  // state: when intent is navigation and a candidate destination exists and
+  // the user has a current location, suggest starting navigation.
+  let structuredAction = result.action || 'information';
+  let actionDetails = null;
+
+  try {
+    const intent = result.intent || state.intent || 'general';
+    const hasDestinationCandidate = Array.isArray(result.results) && result.results.length > 0;
+    const candidate = hasDestinationCandidate ? result.results[0] : null;
+    const hasCurrentLocation = Boolean(state.currentLocation || result.currentLocation);
+
+    if (intent === 'navigation' && hasDestinationCandidate && hasCurrentLocation) {
+      structuredAction = 'START_NAVIGATION';
+      actionDetails = {
+        destinationId: candidate.id,
+        destinationName: candidate.name,
+      };
+    }
+  } catch (e) {
+    // Fall back silently to the original action if anything goes wrong.
+  }
+
   return {
     success: true,
     response: finalText,
     intent: result.intent || 'general',
-    action: result.action || 'information',
+    action: structuredAction,
+    actionDetails,
     places: Array.isArray(result.results) ? result.results.slice(0, 5) : [],
     route: result.route || null,
     status: 'complete',

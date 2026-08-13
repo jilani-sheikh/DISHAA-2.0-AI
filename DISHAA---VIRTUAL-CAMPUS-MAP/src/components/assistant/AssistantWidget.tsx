@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAssistant, type AssistantActions } from '../../hooks/useAssistant';
 import { categoryLabel } from '../../utils/categories';
 import { IconClose, IconNavigation, IconPins, IconSend, IconSparkle } from '../landing/icons';
+import { useSpeech } from '../../hooks/useSpeech';
 
 interface AssistantWidgetProps {
   actions: AssistantActions;
@@ -16,10 +17,12 @@ const QUICK_ACTIONS = [
 export function AssistantWidget({ actions }: AssistantWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [draft, setDraft] = useState('');
+  const [isMuted, setIsMuted] = useState(false);
   const isComposing = useRef(false);
   const { messages, isThinking, send, runQuickAction, showPlaceFromChat, navigateFromChat } = useAssistant(actions);
   const bodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { isSupported, isListening, lastTranscript, error: speechError, startListening, stopListening, speak, isSpeaking, cancelSpeak } = useSpeech();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -29,6 +32,25 @@ export function AssistantWidget({ actions }: AssistantWidgetProps) {
   useEffect(() => {
     if (isOpen) window.setTimeout(() => inputRef.current?.focus(), 120);
   }, [isOpen]);
+
+  // When voice recognition yields a transcript, send it as a user message.
+  useEffect(() => {
+    if (!lastTranscript) return;
+    // Only auto-send when assistant panel is open to avoid unexpected messages.
+    if (!isOpen) return;
+    void send(lastTranscript);
+  }, [lastTranscript, isOpen, send]);
+
+  // Speak assistant responses unless muted.
+  useEffect(() => {
+    if (isMuted) return;
+    const last = messages[messages.length - 1];
+    if (!last || last.role !== 'assistant') return;
+    // Small safety: don't speak the greeting automatically when the panel just opens.
+    if (last.id === 'greeting' && messages.length === 1) return;
+    speak(last.text);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages, isMuted]);
 
   const submitDraft = () => {
     const text = draft.trim();
@@ -126,10 +148,48 @@ export function AssistantWidget({ actions }: AssistantWidgetProps) {
             onCompositionStart={() => { isComposing.current = true; }}
             onCompositionEnd={() => { isComposing.current = false; }}
           />
-          <button type="button" className="assistant-send" onClick={submitDraft} disabled={!draft.trim() || isThinking} aria-label="Send message">
-            <IconSend size={18} />
-          </button>
+
+          <div className="assistant-voice-controls">
+            {/* Microphone button */}
+            <button
+              type="button"
+              className={`assistant-mic ${isListening ? 'listening' : ''}`}
+              title={isListening ? 'Stop listening' : 'Speak to DISHAA'}
+              aria-pressed={isListening}
+              onClick={() => {
+                if (!isSupported) return;
+                if (isListening) stopListening(); else startListening();
+              }}
+            >
+              {isListening ? '🛑' : '🎤'}
+            </button>
+
+            {/* Speaker / mute toggle */}
+            <button
+              type="button"
+              className={`assistant-mute ${isMuted ? 'muted' : ''}`}
+              title={isMuted ? 'Unmute' : 'Speak responses'}
+              onClick={() => {
+                setIsMuted((v) => !v);
+                if (!isMuted) cancelSpeak();
+              }}
+            >
+              {isMuted ? '🔇' : isSpeaking ? '🔊' : '🔈'}
+            </button>
+
+            <button type="button" className="assistant-send" onClick={submitDraft} disabled={!draft.trim() || isThinking} aria-label="Send message">
+              <IconSend size={18} />
+            </button>
+          </div>
         </div>
+
+        {/* Informational hint when speech not supported or has error */}
+        {!isSupported && (
+          <div className="assistant-hint">Voice input not supported in this browser.</div>
+        )}
+        {speechError && (
+          <div className="assistant-hint is-error">Speech error: {speechError}</div>
+        )}
       </section>
     </>
   );
