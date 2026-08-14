@@ -21,11 +21,15 @@ interface NavigationPanelProps {
   onPickOnMap: (target: 'origin' | 'destination') => void;
   onStart: (originId: string, destinationId: string) => void;
   onClear: () => void;
+  // Live guidance (optional)
+  nextInstruction?: string | null;
+  remainingMeters?: number | null;
 }
 
 export function NavigationPanel({
   places, currentLocation, originPinLabel, destinationPinLabel, defaultDestinationId,
   selectTarget, route, isCalculating, error, onPickOnMap, onStart, onClear,
+  nextInstruction, remainingMeters,
 }: NavigationPanelProps) {
   const [originId, setOriginId] = useState(currentLocation ? CURRENT_LOCATION : '');
   const [selectedDestinationId, setSelectedDestinationId] = useState(defaultDestinationId || '');
@@ -92,6 +96,13 @@ export function NavigationPanel({
         </div>
 
         <div className="route-selectors">
+          {/** Live guidance summary shown when navigation is active */}
+          {route && (nextInstruction || typeof remainingMeters === 'number') && (
+            <div className="live-guidance">
+              {nextInstruction && <div className="live-instruction">{nextInstruction}</div>}
+              {typeof remainingMeters === 'number' && <div className="live-remaining">{`${remainingMeters} m remaining`}</div>}
+            </div>
+          )}
           <div className="route-select-row">
             <label className="route-select-label" htmlFor="from-place-select">
               <span>From</span>

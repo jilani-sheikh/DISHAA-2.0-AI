@@ -1,5 +1,5 @@
 const { StateGraph, Annotation, START, END } = require('@langchain/langgraph');
-const { buildContextSnapshot, findNearbyPlaces, getNavigationRoute, searchCampusPlaces } = require('../tools/campusTools');
+const { buildContextSnapshot, findNearbyPlaces, getNavigationRoute, searchCampusPlaces, isPointInsideCampus } = require('../tools/campusTools');
 const { generateText } = require('../../services/ollamaService');
 
 const isNavigationRequest = (message) => /\b(navigate|route|directions?|take me|walk to|go to|get to|how do i get|how can i get|start navigation|stop navigation|change destination)\b/i.test(message);
@@ -205,6 +205,27 @@ const processAssistantMessage = async (input = {}) => {
     }),
     messages: [{ role: 'user', content: userMessage }],
   };
+
+  // If this appears to be a navigation request, enforce a deterministic campus-boundary check
+  try {
+    if (isNavigationRequest(userMessage) && state.currentLocation) {
+      const inside = await isPointInsideCampus({ lat: state.currentLocation.lat, lng: state.currentLocation.lng });
+      if (!inside) {
+        return {
+          success: true,
+          response: 'You are currently outside the campus. Please enter the campus to use DISHAA navigation.',
+          intent: 'navigation',
+          action: 'OUTSIDE_CAMPUS',
+          actionDetails: null,
+          places: [],
+          route: null,
+          status: 'outside_campus',
+        };
+      }
+    }
+  } catch (e) {
+    // On any error we fall back to normal processing; do not block the assistant.
+  }
 
   const result = await compiledGraph.invoke(state);
   const finalText = result.response || buildFallbackResponse(result);

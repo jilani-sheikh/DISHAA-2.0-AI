@@ -22,7 +22,7 @@ export function AssistantWidget({ actions }: AssistantWidgetProps) {
   const { messages, isThinking, send, runQuickAction, showPlaceFromChat, navigateFromChat } = useAssistant(actions);
   const bodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { isSupported, isListening, lastTranscript, error: speechError, startListening, stopListening, speak, isSpeaking, cancelSpeak } = useSpeech();
+  const { isSupported, isListening, lastTranscript, error: speechError, startListening, stopListening, clearTranscript, speak, isSpeaking, cancelSpeak } = useSpeech();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -38,8 +38,18 @@ export function AssistantWidget({ actions }: AssistantWidgetProps) {
     if (!lastTranscript) return;
     // Only auto-send when assistant panel is open to avoid unexpected messages.
     if (!isOpen) return;
-    void send(lastTranscript);
-  }, [lastTranscript, isOpen, send]);
+    // Avoid sending transcripts picked up while the assistant is speaking (TTS feedback loop).
+    if (isSpeaking) {
+      return;
+    }
+
+    // Send once and clear the transcript to prevent duplicate sends.
+    void (async () => {
+      await send(lastTranscript);
+      // clear transcript so the same text isn't sent again
+      try { clearTranscript(); } catch (e) { /* ignore */ }
+    })();
+  }, [lastTranscript, isOpen, isSpeaking, send]);
 
   // Speak assistant responses unless muted.
   useEffect(() => {

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Place = require('../../models/Place');
 const { getRoute } = require('../../services/valhallaService');
+const Campus = require('../../models/Campus');
 
 const safeNumber = (value) => {
   const floatValue = Number(value);
@@ -140,6 +141,19 @@ const getNavigationRoute = async ({ start, destination }) => {
   };
 };
 
+const isPointInsideCampus = async ({ lat, lng }) => {
+  const parsedLat = safeNumber(lat);
+  const parsedLng = safeNumber(lng);
+  if (parsedLat === null || parsedLng === null) return false;
+
+  // Construct GeoJSON point
+  const point = { type: 'Point', coordinates: [parsedLng, parsedLat] };
+
+  // Look for any Campus document whose boundary contains this point
+  const campus = await Campus.findOne({ boundary: { $geoIntersects: { $geometry: point } } }).select('_id name').lean();
+  return !!campus;
+};
+
 const buildContextSnapshot = ({ currentLocation, currentPlace, destination, navigationActive, route }) => ({
   currentLocation: currentLocation || null,
   currentPlace: currentPlace || null,
@@ -155,4 +169,5 @@ module.exports = {
   getNavigationRoute,
   resolvePlaceFromInput,
   buildContextSnapshot,
+  isPointInsideCampus,
 };

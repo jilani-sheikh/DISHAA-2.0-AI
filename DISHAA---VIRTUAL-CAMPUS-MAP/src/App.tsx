@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLiveGuidance } from './hooks/useLiveGuidance';
 import { CampusMap } from './components/map/CampusMap';
 import { AssistantWidget } from './components/assistant/AssistantWidget';
 import { IndoorMapDialog } from './components/layout/IndoorMapDialog';
@@ -44,7 +45,9 @@ export default function App() {
   const [isIndoorMapsOpen, setIsIndoorMapsOpen] = useState(false);
   const [mapResetVersion, setMapResetVersion] = useState(0);
   const [toast, setToast] = useState<ToastState | null>(null);
-
+  const [liveInstruction, setLiveInstruction] = useState<string | null>(null);
+  const [liveRemainingMeters, setLiveRemainingMeters] = useState<number | null>(null);
+  
   const selectedPlaceForDisplay = selectedPlaceDetail || selectedPlace;
   const routeCoordinates = useMemo(() => decodePolyline(route?.route.encodedShape || null), [route?.route.encodedShape]);
 
@@ -231,6 +234,39 @@ export default function App() {
     }),
   }), [currentLocation, destinationPin, findNearby, navigateFromAssistant, places, requestLocation, route, selectedPlace]);
 
+  // Live guidance hook — import below. Provide typed callbacks to satisfy TS.
+  useLiveGuidance({
+    route,
+    currentLocation,
+    speak: (text: string) => {
+      // Best-effort TTS for live guidance; assistant widget has its own TTS hook as well.
+      try {
+        if (window && (window as any).speechSynthesis) {
+          const u = new SpeechSynthesisUtterance(text);
+          (window as any).speechSynthesis.cancel();
+          (window as any).speechSynthesis.speak(u);
+        }
+      } catch (_) {}
+    },
+    onInstruction: (text: string | null, remaining?: number | null) => {
+      setLiveInstruction(text ?? null);
+      setLiveRemainingMeters(typeof remaining === 'number' ? remaining : null);
+    },
+    onOffRoute: () => {
+      setToast({ message: 'You appear to be off the route. Recalculating…', isError: false });
+    },
+    onArrived: () => {
+      setToast({ message: `You have arrived at ${route?.to?.name || 'your destination'}.`, isError: false });
+    },
+    recalcRoute: async () => {
+      // Attempt to recalculate a fresh route using the current live coordinates and the existing destination.
+      if (!currentLocation || !route) return;
+      try {
+        await calculateRoute({ kind: 'current', coordinates: currentLocation }, { kind: 'place', place: { id: route.to.id, name: route.to.name, category: route.to.category, subcategory: route.to.category, description: '', location: { lat: route.to.lat, lng: route.to.lng, type: 'Point', coordinates: [route.to.lng, route.to.lat] } } as any });
+      } catch (_) {}
+    },
+  });
+
   return (
     <AppShell>
       <CampusMap
@@ -305,6 +341,8 @@ export default function App() {
             onPickOnMap={pickOnMap}
             onStart={(originId, destinationId) => void startNavigation(originId, destinationId)}
             onClear={clearActiveRoute}
+            nextInstruction={liveInstruction}
+            remainingMeters={liveRemainingMeters}
           />
         )}
       </aside>

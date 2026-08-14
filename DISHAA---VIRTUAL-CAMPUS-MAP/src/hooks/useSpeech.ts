@@ -8,6 +8,7 @@ export type SpeechHook = {
   error: string | null;
   startListening: () => void;
   stopListening: () => void;
+  clearTranscript: () => void;
   speak: (text: string) => void;
   cancelSpeak: () => void;
 };
@@ -76,9 +77,19 @@ export function useSpeech(): SpeechHook {
     setIsListening(false);
   };
 
+  const clearTranscript = () => {
+    setLastTranscript(null);
+  };
+
   const speak = (text: string) => {
     if (!synthRef.current) return;
     try {
+      // Stop recognition while speaking to avoid picking up TTS as input
+      if (recognitionRef.current && isListening) {
+        try { recognitionRef.current.stop(); } catch (_) {}
+        setIsListening(false);
+      }
+
       if (utteranceRef.current) {
         synthRef.current.cancel();
         utteranceRef.current = null;
@@ -110,6 +121,7 @@ export function useSpeech(): SpeechHook {
     error,
     startListening,
     stopListening,
+    clearTranscript,
     speak,
     cancelSpeak,
   };
