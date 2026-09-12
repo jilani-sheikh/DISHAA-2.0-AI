@@ -19,10 +19,17 @@ export function AssistantWidget({ actions }: AssistantWidgetProps) {
   const [draft, setDraft] = useState('');
   const [isMuted, setIsMuted] = useState(false);
   const isComposing = useRef(false);
-  const { messages, isThinking, send, runQuickAction, showPlaceFromChat, navigateFromChat } = useAssistant(actions);
+  const { messages, isThinking, send, runQuickAction, showPlaceFromChat, navigateFromChat, initializeLocationContext } = useAssistant(actions);
   const bodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { isSupported, isListening, lastTranscript, error: speechError, startListening, stopListening, clearTranscript, speak, isSpeaking, cancelSpeak } = useSpeech();
+
+  useEffect(() => {
+    const loc = actions.getContext?.().currentLocation;
+    if (loc) {
+      void initializeLocationContext(loc);
+    }
+  }, [actions, initializeLocationContext]);
 
   useEffect(() => {
     if (!isOpen) return;

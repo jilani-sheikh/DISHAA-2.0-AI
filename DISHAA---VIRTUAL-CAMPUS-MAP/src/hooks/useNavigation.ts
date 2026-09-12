@@ -27,7 +27,6 @@ export function useNavigation() {
   const calculateRoute = useCallback(async (origin: NavPoint, destination: NavPoint) => {
     setIsLoading(true);
     setError(null);
-    setRoute(null);
     try {
       // Place-to-place keeps the richer named endpoints from the backend;
       // any coordinate/pin endpoint falls back to coordinate routing.

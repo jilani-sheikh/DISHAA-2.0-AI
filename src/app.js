@@ -5,7 +5,7 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 const mongoose = require('mongoose');
 const { checkValhallaHealth } = require('./services/valhallaService');
-const { getOllamaHealth } = require('./services/ollamaService');
+const { getAiHealth } = require('./services/ai/aiProvider');
 const placeRoutes = require('./routes/placeRoutes');
 const navigationRoutes = require('./routes/navigationRoutes');
 const aiRoutes = require('./routes/aiRoutes');
@@ -25,7 +25,7 @@ app.get('/api/health', async (req, res) => {
   const dbStatus = dbStateMap[dbState] || 'unknown';
 
   const valhallaStatus = await checkValhallaHealth();
-  const aiStatus = await getOllamaHealth();
+  const aiStatus = await getAiHealth();
 
   return res.status(200).json({
     status: 'ok',

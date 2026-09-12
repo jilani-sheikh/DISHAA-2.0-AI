@@ -1,17 +1,37 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Coordinates } from '../types';
 
+export interface LocationUpdateEvent {
+  coordinates: Coordinates;
+  accuracy: number | null;
+  timestamp: number;
+}
+
+type LocationListener = (update: LocationUpdateEvent) => void;
+const locationListeners = new Set<LocationListener>();
+
+export function subscribeToLiveLocation(listener: LocationListener): () => void {
+  locationListeners.add(listener);
+  return () => {
+    locationListeners.delete(listener);
+  };
+}
+
+let latestConfirmedLocation: Coordinates | null = null;
+export function getLatestLocation(): Coordinates | null {
+  return latestConfirmedLocation;
+}
+
 /**
  * Live browser geolocation for DISHAA.
  *
- * `requestLocation()` starts a continuous `watchPosition` session so the
- * current-location marker keeps updating as the user moves around campus.
- * It resolves with the first accurate fix (for one-shot callers such as
- * "places near me"), while tracking continues in the background until the
- * hook unmounts or `stopTracking()` is called.
+ * Configured for active turn-by-turn pedestrian navigation:
+ * - `enableHighAccuracy: true` ensures hardware GPS is engaged.
+ * - `maximumAge: 1000` prevents stale cached positions.
+ * - `timeout: 10000` provides reasonable wait time without blocking.
  */
 export function useGeolocation() {
-  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
+  const [coordinates, setCoordinates] = useState<Coordinates | null>(latestConfirmedLocation);
   const [accuracy, setAccuracy] = useState<number | null>(null);
   const [isLocating, setIsLocating] = useState(false);
   const [isTracking, setIsTracking] = useState(false);
@@ -49,20 +69,37 @@ export function useGeolocation() {
     setIsLocating(true);
     setError(null);
 
-    // Restart the watch so we always begin from a fresh, high-accuracy session.
+    // Clear any previous watcher to restart high-accuracy session
     clearWatch();
 
     let settled = false;
     watchId.current = navigator.geolocation.watchPosition(
       (position) => {
-        const nextCoordinates = { lat: position.coords.latitude, lng: position.coords.longitude };
+        const nextCoordinates: Coordinates = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        const nextAccuracy = Number.isFinite(position.coords.accuracy) ? position.coords.accuracy : null;
+        latestConfirmedLocation = nextCoordinates;
+
+        // Notify direct listeners (e.g. high-performance Leaflet marker layer)
+        const updateEvent: LocationUpdateEvent = {
+          coordinates: nextCoordinates,
+          accuracy: nextAccuracy,
+          timestamp: position.timestamp || Date.now(),
+        };
+        locationListeners.forEach((fn) => {
+          try { fn(updateEvent); } catch (_) {}
+        });
+
         if (isMounted.current) {
           setCoordinates(nextCoordinates);
-          setAccuracy(Number.isFinite(position.coords.accuracy) ? position.coords.accuracy : null);
+          setAccuracy(nextAccuracy);
           setIsTracking(true);
           setIsLocating(false);
           setError(null);
         }
+
         if (!settled) {
           settled = true;
           resolve(nextCoordinates);
@@ -83,9 +120,22 @@ export function useGeolocation() {
           resolve(null);
         }
       },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 1000,
+      },
     );
   }), [clearWatch]);
 
-  return { coordinates, accuracy, isLocating, isTracking, error, requestLocation, stopTracking };
+  return {
+    coordinates,
+    accuracy,
+    isLocating,
+    isTracking,
+    error,
+    requestLocation,
+    stopTracking,
+  };
 }
+

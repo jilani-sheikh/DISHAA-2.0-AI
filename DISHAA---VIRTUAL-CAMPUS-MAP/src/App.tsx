@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLiveGuidance } from './hooks/useLiveGuidance';
+import { useLiveGuidance, getLatestNavigationContext } from './hooks/useLiveGuidance';
 import { CampusMap } from './components/map/CampusMap';
 import { AssistantWidget } from './components/assistant/AssistantWidget';
 import { IndoorMapDialog } from './components/layout/IndoorMapDialog';
@@ -18,6 +18,7 @@ import { useNavigation } from './hooks/useNavigation';
 import { useNearbyPlaces } from './hooks/useNearbyPlaces';
 import { usePlaceDetails } from './hooks/usePlaceDetails';
 import { usePlaces } from './hooks/usePlaces';
+import { useVoiceNavigation } from './hooks/useVoiceNavigation';
 import type { AssistantActions } from './hooks/useAssistant';
 import type { NavPoint } from './hooks/useNavigation';
 import { placesApi } from './services/api/placesApi';
@@ -44,12 +45,29 @@ export default function App() {
   const [selectTarget, setSelectTarget] = useState<'origin' | 'destination' | null>(null);
   const [isIndoorMapsOpen, setIsIndoorMapsOpen] = useState(false);
   const [mapResetVersion, setMapResetVersion] = useState(0);
+  const [isFollowMode, setIsFollowMode] = useState(false);
   const [toast, setToast] = useState<ToastState | null>(null);
   const [liveInstruction, setLiveInstruction] = useState<string | null>(null);
   const [liveRemainingMeters, setLiveRemainingMeters] = useState<number | null>(null);
+  const [isArrived, setIsArrived] = useState(false);
+  const [arrivalLocation, setArrivalLocation] = useState<Coordinates | null>(null);
   
+  const {
+    isEnabled: isVoiceEnabled,
+    isSpeaking: isVoiceSpeaking,
+    toggleVoice,
+    initVoice,
+    speak: speakVoice,
+    stopSession: stopVoiceSession,
+  } = useVoiceNavigation();
+
   const selectedPlaceForDisplay = selectedPlaceDetail || selectedPlace;
   const routeCoordinates = useMemo(() => decodePolyline(route?.route.encodedShape || null), [route?.route.encodedShape]);
+
+  useEffect(() => {
+    setIsArrived(false);
+    setArrivalLocation(null);
+  }, [route]);
 
   useEffect(() => {
     if (!locationError) return;
@@ -73,6 +91,7 @@ export default function App() {
   }, []);
 
   const locateUser = useCallback(async () => {
+    setIsFollowMode(true);
     const coordinates = await requestLocation();
     if (!coordinates) return;
 
@@ -110,6 +129,9 @@ export default function App() {
   }, [destinationPin, places]);
 
   const startNavigation = useCallback(async (originId: string, destinationId: string) => {
+    // Unlock native speech audio context via user interaction gesture
+    initVoice();
+
     const destination = resolveDestination(destinationId);
     if (!destination) {
       setToast({ message: 'Choose a destination to start navigation.', isError: true });
@@ -125,20 +147,30 @@ export default function App() {
       });
       return;
     }
+    setIsFollowMode(true);
+    setIsArrived(false);
+    setArrivalLocation(null);
     await calculateRoute(origin, destination);
-  }, [calculateRoute, resolveDestination, resolveOrigin]);
+  }, [calculateRoute, initVoice, resolveDestination, resolveOrigin]);
 
   const openNavigationForSelectedPlace = useCallback(() => {
     if (selectedPlace) setIsNavigationOpen(true);
   }, [selectedPlace]);
 
   const clearActiveRoute = useCallback(() => {
+    stopVoiceSession();
     clearRoute();
     setIsNavigationOpen(false);
+    setIsFollowMode(false);
+    setIsArrived(false);
+    setArrivalLocation(null);
     setOriginPin(null);
     setDestinationPin(null);
     setSelectTarget(null);
-  }, [clearRoute]);
+    setLiveInstruction(null);
+    setLiveRemainingMeters(null);
+  }, [clearRoute, stopVoiceSession]);
+
 
   const pickOnMap = useCallback((target: 'origin' | 'destination') => {
     setSelectTarget(target);
@@ -210,6 +242,12 @@ export default function App() {
     await calculateRoute({ kind: 'current', coordinates: origin }, { kind: 'place', place: destination });
   }, [calculateRoute, currentLocation, requestLocation]);
 
+  const navigateBetweenPlacesFromAssistant = useCallback(async (origin: Place, destination: Place) => {
+    setSelectedPlace(destination);
+    setIsNavigationOpen(true);
+    await calculateRoute({ kind: 'place', place: origin }, { kind: 'place', place: destination });
+  }, [calculateRoute]);
+
   const assistantActions = useMemo<AssistantActions>(() => ({
     searchPlaces: async (query: string) => {
       const response = await placesApi.search(query);
@@ -220,6 +258,7 @@ export default function App() {
       setSelectedPlace(place);
     },
     navigateTo: navigateFromAssistant,
+    navigateBetweenPlaces: navigateBetweenPlacesFromAssistant,
     findNearby: async () => {
       const coordinates = await requestLocation();
       if (!coordinates) throw new Error('location-unavailable');
@@ -231,22 +270,17 @@ export default function App() {
       destination: destinationPin?.place ?? selectedPlace ?? null,
       navigationActive: Boolean(route),
       route: route ?? null,
+      navigationContext: getLatestNavigationContext(),
     }),
-  }), [currentLocation, destinationPin, findNearby, navigateFromAssistant, places, requestLocation, route, selectedPlace]);
+  }), [currentLocation, destinationPin, findNearby, navigateBetweenPlacesFromAssistant, navigateFromAssistant, places, requestLocation, route, selectedPlace]);
 
-  // Live guidance hook — import below. Provide typed callbacks to satisfy TS.
+  // Live guidance hook — with native SpeechSynthesis priority queue
   useLiveGuidance({
     route,
     currentLocation,
-    speak: (text: string) => {
-      // Best-effort TTS for live guidance; assistant widget has its own TTS hook as well.
-      try {
-        if (window && (window as any).speechSynthesis) {
-          const u = new SpeechSynthesisUtterance(text);
-          (window as any).speechSynthesis.cancel();
-          (window as any).speechSynthesis.speak(u);
-        }
-      } catch (_) {}
+    places,
+    speak: (text: string, priority, dedupeKey) => {
+      speakVoice(text, priority, dedupeKey);
     },
     onInstruction: (text: string | null, remaining?: number | null) => {
       setLiveInstruction(text ?? null);
@@ -255,7 +289,11 @@ export default function App() {
     onOffRoute: () => {
       setToast({ message: 'You appear to be off the route. Recalculating…', isError: false });
     },
-    onArrived: () => {
+    onArrived: (loc?: Coordinates) => {
+      setIsArrived(true);
+      if (loc) {
+        setArrivalLocation(loc);
+      }
       setToast({ message: `You have arrived at ${route?.to?.name || 'your destination'}.`, isError: false });
     },
     recalcRoute: async () => {
@@ -279,10 +317,14 @@ export default function App() {
         route={route}
         routeCoordinates={routeCoordinates}
         resetVersion={mapResetVersion}
+        isFollowMode={isFollowMode}
+        onFollowModeChange={setIsFollowMode}
         onSelectPlace={selectPlace}
         onMapClick={handleMapClick}
         onSetDestination={setPinAsDestination}
         onNavigate={() => void navigateFromPin()}
+        isArrived={isArrived}
+        arrivalLocation={arrivalLocation}
       />
 
       <FloatingControls onLocate={() => void locateUser()} onReset={() => setMapResetVersion((v) => v + 1)} onAssistant={() => {}} />
@@ -343,6 +385,9 @@ export default function App() {
             onClear={clearActiveRoute}
             nextInstruction={liveInstruction}
             remainingMeters={liveRemainingMeters}
+            isVoiceEnabled={isVoiceEnabled}
+            isSpeaking={isVoiceSpeaking}
+            onToggleVoice={toggleVoice}
           />
         )}
       </aside>
@@ -355,8 +400,18 @@ export default function App() {
       )}
 
       <div className="map-controls" aria-label="Map controls">
+        <button
+          className={`map-control ${isFollowMode ? 'is-active' : ''}`}
+          type="button"
+          title={isFollowMode ? 'Following user location' : 'Recenter on user location'}
+          aria-label={isFollowMode ? 'Following user location' : 'Recenter on user location'}
+          onClick={() => void locateUser()}
+        >
+          {isFollowMode ? '📍' : '◎'}
+        </button>
         <button className="map-control" type="button" title="Reset campus view" aria-label="Reset campus view" onClick={() => setMapResetVersion((version) => version + 1)}>⌂</button>
       </div>
+
 
       <AssistantWidget actions={assistantActions} />
 

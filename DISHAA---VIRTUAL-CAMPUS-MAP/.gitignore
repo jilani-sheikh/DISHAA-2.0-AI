@@ -18,6 +18,8 @@ build/
 
 # Vite
 .vite/
+vite.config.ts.timestamp-*.mjs
+*.timestamp-*.mjs
 
 # Logs
 *.log

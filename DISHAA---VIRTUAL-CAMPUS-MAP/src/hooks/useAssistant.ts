@@ -14,6 +14,8 @@ export interface AssistantActions {
   showPlace: (place: Place) => void;
   /** Start a real Valhalla walking route to the destination. */
   navigateTo: (place: Place) => Promise<void> | void;
+  /** Start a walking route between two specific campus places. */
+  navigateBetweenPlaces?: (origin: Place, destination: Place) => Promise<void> | void;
   /** Resolve the user's live location and return nearby campus places. */
   findNearby: () => Promise<Place[]>;
   /** Provide current UI context so the agent can stay location-aware. */
@@ -23,6 +25,7 @@ export interface AssistantActions {
     destination?: Place | null;
     navigationActive?: boolean;
     route?: RouteResponse | null;
+    navigationContext?: any;
   };
 }
 
@@ -34,6 +37,7 @@ export interface AssistantMessage {
   text: string;
   kind: AssistantMessageKind;
   places?: Place[];
+  isStreaming?: boolean;
 }
 
 export type QuickAction = 'find-nearby' | 'search-library' | 'navigate-hint';
@@ -65,9 +69,51 @@ export function useAssistant(actions: AssistantActions) {
   const [isThinking, setIsThinking] = useState(false);
   const actionsRef = useRef(actions);
   actionsRef.current = actions;
+  const hasInitializedLocationRef = useRef(false);
+
+  const initializeLocationContext = useCallback(async (location: Coordinates) => {
+    if (hasInitializedLocationRef.current || !location) return;
+    hasInitializedLocationRef.current = true;
+    try {
+      const response = await assistantApi.chat({
+        message: 'Hello',
+        currentLocation: location,
+        initialGreeting: true,
+      });
+
+      if (response && response.response) {
+        const places = Array.isArray(response.places) ? response.places as Place[] : [];
+        setMessages((curr) => [
+          ...curr,
+          makeMessage('assistant', response.response, {
+            kind: places.length > 0 ? 'places' : 'text',
+            places,
+          }),
+        ]);
+      }
+    } catch (_) {
+      // Ignore initial location context fetch errors silently
+    }
+  }, []);
 
   const push = useCallback((message: AssistantMessage) => {
     setMessages((current) => [...current, message]);
+  }, []);
+
+  const updateMessageText = useCallback((id: string, text: string, isStreaming = true, places?: Place[]) => {
+    setMessages((current) =>
+      current.map((msg) =>
+        msg.id === id
+          ? {
+              ...msg,
+              text,
+              isStreaming,
+              kind: places && places.length > 0 ? 'places' : msg.kind,
+              places: places || msg.places,
+            }
+          : msg
+      )
+    );
   }, []);
 
   const resolveFallbackResponse = useCallback(async (query: string): Promise<AssistantMessage> => {
@@ -111,60 +157,93 @@ export function useAssistant(actions: AssistantActions) {
     }
   }, []);
 
-  const resolveResponse = useCallback(async (query: string): Promise<AssistantMessage> => {
-    const normalized = query.trim();
-    if (!normalized) {
-      return makeMessage('assistant', 'Please type a question or destination for the campus guide.');
-    }
-
-    const context = actionsRef.current.getContext?.() || {};
-
-    try {
-      const response = await assistantApi.chat({
-        message: normalized,
-        currentLocation: context.currentLocation ?? null,
-        currentPlace: context.currentPlace ?? null,
-        destination: context.destination ?? null,
-        navigationActive: Boolean(context.navigationActive),
-        route: context.route ?? null,
-      });
-
-      const places = Array.isArray(response.places) ? response.places as Place[] : [];
-
-      // If the backend suggests starting navigation deterministically, trigger
-      // the existing navigation flow in the frontend. This keeps routing in the
-      // canonical Valhalla-backed path and avoids letting the LLM execute code.
-      if (response.action === 'START_NAVIGATION' && places.length > 0) {
-        // Fire-and-forget: let the navigation flow handle location prompts.
-        try {
-          void actionsRef.current.navigateTo?.(places[0]);
-        } catch {
-          // Ignore — the navigation UI will surface issues. Still show the AI text.
-        }
-      }
-
-      return makeMessage('assistant', response.response, {
-        kind: places.length > 0 ? 'places' : 'text',
-        places: places.slice(0, 5),
-      });
-    } catch {
-      return resolveFallbackResponse(normalized);
-    }
-  }, [resolveFallbackResponse]);
-
   const send = useCallback(async (rawText: string) => {
     const text = rawText.trim();
     if (!text || isThinking) return;
 
     push(makeMessage('user', text));
     setIsThinking(true);
+
+    const streamMessageId = nextId();
+    let streamText = '';
+    let hasAddedAssistantMsg = false;
+
     try {
-      const response = await resolveResponse(text);
-      push(response);
+      const context = actionsRef.current.getContext?.() || {};
+      const response = await assistantApi.chatStream(
+        {
+          message: text,
+          currentLocation: context.currentLocation ?? null,
+          currentPlace: context.currentPlace ?? null,
+          destination: context.destination ?? null,
+          navigationActive: Boolean(context.navigationActive),
+          route: context.route ?? null,
+          navigationContext: context.navigationContext ?? null,
+        },
+        (chunk) => {
+          streamText += chunk;
+          if (!hasAddedAssistantMsg) {
+            hasAddedAssistantMsg = true;
+            setIsThinking(false);
+            setMessages((curr) => [
+              ...curr,
+              {
+                id: streamMessageId,
+                role: 'assistant',
+                text: streamText,
+                kind: 'text',
+                isStreaming: true,
+              },
+            ]);
+          } else {
+            updateMessageText(streamMessageId, streamText, true);
+          }
+        }
+      );
+
+      const places = Array.isArray(response.places) ? (response.places as Place[]) : [];
+
+      if (!hasAddedAssistantMsg) {
+        // Response arrived all at once or from fast path
+        setMessages((curr) => [
+          ...curr,
+          {
+            id: streamMessageId,
+            role: 'assistant',
+            text: response.response || streamText,
+            kind: places.length > 0 ? 'places' : 'text',
+            places: places.slice(0, 5),
+            isStreaming: false,
+          },
+        ]);
+      } else {
+        // Finalize streaming message
+        updateMessageText(streamMessageId, response.response || streamText, false, places.slice(0, 5));
+      }
+
+      // If backend suggests navigation, trigger deterministic flow
+      if (response.action === 'START_NAVIGATION' && places.length > 0) {
+        try {
+          const actionDetails = response.actionDetails;
+          const originPlace = actionDetails?.originPlace || (places.length >= 2 ? places[1] : null);
+          const destPlace = actionDetails?.destinationPlace || places[0];
+
+          if (originPlace && destPlace && actionsRef.current.navigateBetweenPlaces) {
+            void actionsRef.current.navigateBetweenPlaces(originPlace, destPlace);
+          } else if (destPlace) {
+            void actionsRef.current.navigateTo?.(destPlace);
+          }
+        } catch (_) {}
+      }
+    } catch (_) {
+      if (!hasAddedAssistantMsg) {
+        const fallback = await resolveFallbackResponse(text);
+        push(fallback);
+      }
     } finally {
       setIsThinking(false);
     }
-  }, [isThinking, push, resolveResponse]);
+  }, [isThinking, push, resolveFallbackResponse, updateMessageText]);
 
   const runQuickAction = useCallback((action: QuickAction) => {
     if (action === 'find-nearby') return send('Find something near me');
@@ -183,5 +262,14 @@ export function useAssistant(actions: AssistantActions) {
     await actionsRef.current.navigateTo(place);
   }, [push]);
 
-  return { messages, isThinking, send, runQuickAction, showPlaceFromChat, navigateFromChat };
+  return {
+    messages,
+    isThinking,
+    send,
+    runQuickAction,
+    showPlaceFromChat,
+    navigateFromChat,
+    initializeLocationContext,
+  };
 }
+

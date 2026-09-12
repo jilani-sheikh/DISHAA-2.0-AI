@@ -1,10 +1,10 @@
-import { Circle, MapContainer, Marker, TileLayer } from 'react-leaflet';
-import { divIcon } from 'leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import type { Coordinates, PinPoint, Place, RouteResponse } from '../../types';
 import { MapInteraction } from './MapInteraction';
 import { MapViewport, campusCenter, campusZoom } from './MapViewport';
 import { PlaceMarkers } from './PlaceMarkers';
 import { RouteLayer } from './RouteLayer';
+import { UserLocationLayer } from './UserLocationLayer';
 
 interface CampusMapProps {
   places: Place[];
@@ -16,22 +16,20 @@ interface CampusMapProps {
   route: RouteResponse | null;
   routeCoordinates: Coordinates[];
   resetVersion: number;
+  isFollowMode?: boolean;
+  onFollowModeChange?: (active: boolean) => void;
   onSelectPlace: (place: Place) => void;
   onMapClick: (coordinates: Coordinates) => void;
   onSetDestination: () => void;
   onNavigate: () => void;
+  isArrived?: boolean;
+  arrivalLocation?: Coordinates | null;
 }
-
-const currentLocationIcon = divIcon({
-  className: 'point-icon-wrapper',
-  html: '<span class="current-location-marker"></span>',
-  iconSize: [17, 17],
-  iconAnchor: [8, 8],
-});
 
 export function CampusMap({
   places, selectedPlace, currentLocation, locationAccuracy, originPin, destinationPin,
-  route, routeCoordinates, resetVersion, onSelectPlace, onMapClick, onSetDestination, onNavigate,
+  route, routeCoordinates, resetVersion, isFollowMode, onFollowModeChange, onSelectPlace, onMapClick, onSetDestination, onNavigate,
+  isArrived = false, arrivalLocation = null,
 }: CampusMapProps) {
   return (
     <MapContainer center={campusCenter} zoom={campusZoom} zoomControl={false} className="campus-map" aria-label="Interactive campus map">
@@ -41,14 +39,15 @@ export function CampusMap({
         maxZoom={20}
       />
       <PlaceMarkers places={places} onSelect={onSelectPlace} />
-      {currentLocation && locationAccuracy && locationAccuracy > 0 && (
-        <Circle
-          center={[currentLocation.lat, currentLocation.lng]}
-          radius={locationAccuracy}
-          pathOptions={{ color: '#3d75b4', weight: 1, opacity: 0.5, fillColor: '#3d75b4', fillOpacity: 0.12 }}
-        />
-      )}
-      {currentLocation && <Marker position={[currentLocation.lat, currentLocation.lng]} icon={currentLocationIcon} />}
+      <UserLocationLayer
+        initialLocation={currentLocation}
+        initialAccuracy={locationAccuracy}
+        isFollowMode={isFollowMode}
+        onFollowModeChange={onFollowModeChange}
+        navigationActive={Boolean(route)}
+        isArrived={isArrived}
+        arrivalLocation={arrivalLocation}
+      />
       <MapInteraction
         originPin={originPin}
         destinationPin={destinationPin}
@@ -62,3 +61,4 @@ export function CampusMap({
     </MapContainer>
   );
 }
+

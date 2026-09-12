@@ -1,0 +1,153 @@
+{
+  "type": "FeatureCollection",
+  "name": "DISHAA 2.0 Route Arrival & GPS Jitter Simulation",
+  "destination": {
+    "name": "Canteen 1",
+    "coordinates": [79.0024549, 21.1241627]
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posA",
+        "description": "Position A — starting point",
+        "expectedDistanceMeters": 60.0,
+        "isArrivalTrigger": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1236231]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posB",
+        "description": "Position B — normal movement",
+        "expectedDistanceMeters": 40.0,
+        "isArrivalTrigger": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1238030]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posC",
+        "description": "Position C — closer to destination",
+        "expectedDistanceMeters": 25.0,
+        "isArrivalTrigger": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1239379]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posD",
+        "description": "Position D — approximately 15m from destination",
+        "expectedDistanceMeters": 15.0,
+        "isArrivalTrigger": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1240278]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posE",
+        "description": "Position E — approximately 12m from destination",
+        "expectedDistanceMeters": 12.0,
+        "isArrivalTrigger": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1240548]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posF",
+        "description": "Position F — <=10m from destination and therefore arrival",
+        "expectedDistanceMeters": 7.99,
+        "isArrivalTrigger": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1240908]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posG",
+        "description": "Position G — 13m away (post-arrival jitter)",
+        "expectedDistanceMeters": 13.0,
+        "isArrivalTrigger": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1240458]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posH",
+        "description": "Position H — 11m away (post-arrival jitter)",
+        "expectedDistanceMeters": 11.0,
+        "isArrivalTrigger": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1240638]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posI",
+        "description": "Position I — 7m away (post-arrival jitter)",
+        "expectedDistanceMeters": 6.99,
+        "isArrivalTrigger": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1240998]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posJ",
+        "description": "Position J — 15m away (post-arrival jitter)",
+        "expectedDistanceMeters": 15.0,
+        "isArrivalTrigger": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1240278]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "pointId": "posK",
+        "description": "Position K — GPS drift farther from arrival coordinate",
+        "expectedDistanceMeters": 21.99,
+        "isArrivalTrigger": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0024549, 21.1239649]
+      }
+    }
+  ]
+}

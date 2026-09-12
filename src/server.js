@@ -9,14 +9,14 @@ const PORT = process.env.PORT || 3000;
 const start = async () => {
   try {
     await connectDB();
-    app.listen(PORT, () => {
-      console.log(`[DISHAA API] Server running on http://localhost:${PORT}`);
-      console.log(`[DISHAA API] Health check: http://localhost:${PORT}/api/health`);
-    });
   } catch (err) {
-    console.error('[DISHAA API] Failed to start server:', err.message);
-    process.exit(1);
+    console.warn('[DISHAA API] MongoDB not connected at startup, running in degraded DB mode:', err.message);
   }
+
+  app.listen(PORT, () => {
+    console.log(`[DISHAA API] Server running on http://localhost:${PORT}`);
+    console.log(`[DISHAA API] Health check: http://localhost:${PORT}/api/health`);
+  });
 };
 
 // Graceful shutdown
