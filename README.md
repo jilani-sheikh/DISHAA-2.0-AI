@@ -531,8 +531,7 @@ When moving DISHAA 2.0 to production, different architectural components have di
 
 Developed with ❤️ by the **DISHAA Team** at **G H Raisoni College of Engineering and Management (GHRCEM), Nagpur**.
 
-- **Lead Developer & System Architect**: [Jilani Sheikh](https://github.com/jilani-sheikh)
-- **Institutional Guidance & Mentorship**: Department of Computer Science & Engineering, GHRCEM Nagpur.
+- **Institutional Guidance & Mentorship**: Department of Information Technology, GHRCEM Nagpur.
 - **Mapping Data**: OpenStreetMap contributors & GHRCEM Campus Survey.
 
 ---
