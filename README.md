@@ -7,8 +7,20 @@
 [![Docker](https://img.shields.io/badge/docker-valhalla-2496ed.svg)](https://www.docker.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose_8-47A248.svg)](https://www.mongodb.com/)
 [![Google Gemini](https://img.shields.io/badge/AI-Google_Gemini-orange.svg)](https://ai.google.dev/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Preview_Here-success.svg)](#-live-demo)
 
 > **Next-Generation Autonomous Campus Navigation System with Turn-by-Turn Pedestrian Routing, Interactive Indoor Maps, Voice Guidance, and Conversational AI Assistant.**
+
+---
+
+## 🌐 Live Demo
+
+- 🚀 **Live Web Application**: [https://your-live-demo-link.vercel.app](https://your-live-demo-link.vercel.app) *(Replace with your actual hosted deployment URL)*
+- 📹 **Video Demonstration / Walkthrough**: [Add video link here, e.g., YouTube / Drive]
+- 📑 **Project Presentation Deck**: [Add presentation slides link here]
+
+> [!TIP]
+> For the best testing experience with live GPS location tracking and spoken turn-by-turn voice guidance, open the live link on a mobile device and grant location permissions when prompted.
 
 ---
 
