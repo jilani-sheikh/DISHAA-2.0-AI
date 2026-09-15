@@ -9,6 +9,7 @@ const { getAiHealth } = require('./services/ai/aiProvider');
 const placeRoutes = require('./routes/placeRoutes');
 const navigationRoutes = require('./routes/navigationRoutes');
 const aiRoutes = require('./routes/aiRoutes');
+const facultyRoutes = require('./routes/facultyRoutes');
 
 const app = express();
 
@@ -16,6 +17,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static assets (such as indoor-viewer) from frontend public directory
+const publicDir = path.join(__dirname, '../DISHAA---VIRTUAL-CAMPUS-MAP/public');
+app.use(express.static(publicDir));
 
 // ─── Health Check ────────────────────────────────────────────────────────────
 app.get('/api/health', async (req, res) => {
@@ -44,6 +49,7 @@ app.get('/api/health', async (req, res) => {
 app.use('/api/places', placeRoutes);
 app.use('/api/navigation', navigationRoutes);
 app.use('/api/assistant', aiRoutes);
+app.use('/api/faculty', facultyRoutes);
 
 // ─── 404 Handler ────────────────────────────────────────────────────────────
 app.use((req, res) => {

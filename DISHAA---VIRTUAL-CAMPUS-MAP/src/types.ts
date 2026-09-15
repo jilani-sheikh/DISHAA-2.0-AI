@@ -67,3 +67,22 @@ export interface HealthResponse {
   valhalla: 'available' | 'unavailable';
   valhallaMessage: string;
 }
+
+export interface FacultySittingLocation {
+  block: string;
+  floor: number;
+  roomNo: string;
+}
+
+export interface FacultyMember {
+  _id?: string;
+  name: string;
+  designation: string;
+  department: string;
+  email: string;
+  phone?: string;
+  role?: 'faculty' | 'admin';
+  sittingLocation: FacultySittingLocation;
+  createdAt?: string;
+  updatedAt?: string;
+}

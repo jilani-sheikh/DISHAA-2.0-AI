@@ -38,6 +38,7 @@ export function Header({ isOnline, isLocating, onLocate, onOpenIndoorMaps }: Hea
           {isLocating ? '…' : '◎'}
         </button>
         <button className="text-button" type="button" onClick={onOpenIndoorMaps}>Indoor maps</button>
+        <a className="text-button" href="#/faculty" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>Faculty</a>
       </div>
     </header>
   );

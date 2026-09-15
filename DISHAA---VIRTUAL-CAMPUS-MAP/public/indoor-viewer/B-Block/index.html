@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DISHAA - Unified Campus Indoor Navigation (A-Block, B-Block, C-Block)</title>
+    <link rel="icon" type="image/png" href="/disha-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="indoor-viewer.css">
+    <!-- Import map for Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Clean Minimalist Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="loader-content">
+            <div class="loader-logo-wrap">
+                <img src="/disha-logo.png" alt="DISHAA Logo" class="loader-logo-clean">
+            </div>
+            <div class="loader-text-wrap">
+                <h2 class="loader-brand">DISHAA</h2>
+                <p class="loader-subtitle">Virtual Campus Guide & Spatial Assistant</p>
+            </div>
+            <div class="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+            <p id="progress-text" class="progress-label">Loading campus map... 0%</p>
+        </div>
+    </div>
+
+    <!-- Modal for Under Construction / Unbuilt Floors & Blocks -->
+    <div id="floor-modal" class="custom-modal" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-icon-wrap">
+                <span class="modal-icon">🚧</span>
+            </div>
+            <h3 id="modal-title">Block / Floor Info</h3>
+            <p id="modal-message">Information about the selected floor.</p>
+            <button id="modal-close-btn" class="modal-btn">Got It</button>
+        </div>
+    </div>
+
+    <!-- Modern Clean Top Header Navbar -->
+    <header class="top-header">
+        <div class="header-left">
+            <button id="sidebar-toggle-btn" class="icon-btn sidebar-toggle-btn" title="Toggle Navigation Panel" aria-label="Toggle Menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12"></line>
+                    <line x1="4" x2="20" y1="6" y2="6"></line>
+                    <line x1="4" x2="20" y1="18" y2="18"></line>
+                </svg>
+            </button>
+            
+            <div class="brand-link">
+                <img src="dishaa logo.png" alt="DISHAA" class="header-logo-left dishaa-logo-zoom">
+                <div class="brand-info">
+                    <div class="brand-title-row">
+                        <span class="brand-title">DISHAA</span>
+                        <span class="badge-campus">GHRCEM</span>
+                    </div>
+                    <span id="header-floor-indicator" class="sub-brand">A-Block • Ground Floor (0F)</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Clean Centered Search Bar -->
+        <div class="header-center">
+            <div class="header-search-container">
+                <div class="search-box">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                    <input type="text" id="global-search-input" placeholder="Search classrooms, labs, departments, staff rooms...">
+                    <button id="global-search-clear" class="clear-btn" style="display: none;" title="Clear search">✕</button>
+                </div>
+                <ul id="global-search-results" class="search-results-list"></ul>
+            </div>
+        </div>
+
+        <!-- Header Right: 2D/3D Toggle -->
+        <div class="header-right">
+            <!-- 2D / 3D Segmented Toggle Switch -->
+            <div class="view-mode-toggle" title="Switch 2D / 3D View">
+                <button id="mode-2d-btn" class="mode-toggle-btn active" data-mode="2d">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                    </svg>
+                    <span>2D</span>
+                </button>
+                <button id="mode-3d-btn" class="mode-toggle-btn" data-mode="3d">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m21 16-9 5-9-5V8l9-5 9 5v8z"></path>
+                        <path d="M3.27 6.96 12 12.01l8.73-5.05"></path>
+                        <path d="M12 22.08V12"></path>
+                    </svg>
+                    <span>3D</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Humanized Clean Left Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Campus Block & Floor Section in Sidebar -->
+            <section class="sidebar-section">
+                <div class="section-header" onclick="toggleSection('block-nav-content')">
+                    <div class="section-title-wrap">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                            <path d="M9 22v-4h6v4"></path>
+                            <path d="M8 6h.01"></path>
+                            <path d="M16 6h.01"></path>
+                        </svg>
+                        <h3>CAMPUS BLOCK & FLOOR</h3>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div id="block-nav-content" class="section-content">
+                    <div class="sidebar-block-cards-grid">
+                        <button class="sidebar-blk-card active" data-blk-card="A">
+                            <div class="blk-card-top">
+                                <span class="blk-card-badge">A</span>
+                                <span class="blk-card-name">A-Block</span>
+                            </div>
+                            <span class="blk-card-desc">Ground Floor (47 Rooms)</span>
+                        </button>
+                        <button class="sidebar-blk-card" data-blk-card="B">
+                            <div class="blk-card-top">
+                                <span class="blk-card-badge">B</span>
+                                <span class="blk-card-name">B-Block</span>
+                            </div>
+                            <span class="blk-card-desc">1st, 2nd, 3rd, 4th Floors</span>
+                        </button>
+                        <button class="sidebar-blk-card" data-blk-card="C">
+                            <div class="blk-card-top">
+                                <span class="blk-card-badge">C</span>
+                                <span class="blk-card-name">C-Block</span>
+                            </div>
+                            <span class="blk-card-desc">Ground Floor (21 Rooms)</span>
+                        </button>
+                    </div>
+
+                    <div class="sidebar-floors-label">Select Floor:</div>
+                    <div id="sidebar-floor-buttons" class="sidebar-floors-container">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Panel -->
+            <section class="sidebar-section">
+                <div class="section-header" onclick="toggleSection('navigate-content')">
+                    <div class="section-title-wrap">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+                        </svg>
+                        <h3>PLAN ROUTE</h3>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div id="navigate-content" class="section-content">
+                    <div class="route-inputs-card">
+                        <div class="input-row">
+                            <span class="pin-indicator start-dot"></span>
+                            <div class="select-wrapper">
+                                <label class="input-label">START</label>
+                                <select id="start-select" class="clean-select">
+                                    <option value="">Choose start location</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="swap-divider">
+                            <div class="divider-line"></div>
+                            <button class="swap-btn" id="swap-btn" title="Swap locations">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path>
+                                </svg>
+                            </button>
+                            <div class="divider-line"></div>
+                        </div>
+
+                        <div class="input-row">
+                            <span class="pin-indicator dest-dot"></span>
+                            <div class="select-wrapper">
+                                <label class="input-label">DESTINATION</label>
+                                <select id="dest-select" class="clean-select">
+                                    <option value="">Choose destination</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons-row">
+                        <button id="find-route-btn" class="btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14"></path>
+                                <path d="m12 5 7 7-7 7"></path>
+                            </svg>
+                            <span>Get Directions</span>
+                        </button>
+                        <button id="clear-route-btn" class="btn-secondary" title="Clear route">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6 6 18"></path>
+                                <path d="m6 6 12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Turn-by-Turn Directions (Dynamic) -->
+            <section class="sidebar-section" id="tbt-section" style="display: none;">
+                <div class="section-header" onclick="toggleSection('tbt-content')">
+                    <div class="section-title-wrap">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <h3>DIRECTIONS</h3>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div id="tbt-content" class="section-content">
+                    <div id="distance-badge" class="distance-badge">~ 0.0 m walk</div>
+                    <div id="tbt-list" class="tbt-list">
+                        <!-- Directions populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filter Rooms by Category -->
+            <section class="sidebar-section">
+                <div class="section-header" onclick="toggleSection('filter-content')">
+                    <div class="section-title-wrap">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                        <h3>EXPLORE BY CATEGORY</h3>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div id="filter-content" class="section-content">
+                    <div class="filter-pills-grid">
+                        <button class="filter-pill active" data-filter="all">All Rooms</button>
+                        <button class="filter-pill" data-filter="class">Classrooms</button>
+                        <button class="filter-pill" data-filter="lab">Laboratories</button>
+                        <button class="filter-pill" data-filter="admin">Admin & Sections</button>
+                        <button class="filter-pill" data-filter="faculty">Faculty & Staff</button>
+                        <button class="filter-pill" data-filter="service">Services & Lift</button>
+                        <button class="filter-pill" data-filter="washroom">Washrooms</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Map Legend -->
+            <section class="sidebar-section">
+                <div class="section-header" onclick="toggleSection('legend-content')">
+                    <div class="section-title-wrap">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" x2="12" y1="16" y2="12"></line>
+                            <line x1="12" x2="12.01" y1="8" y2="8"></line>
+                        </svg>
+                        <h3>MAP LEGEND</h3>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div id="legend-content" class="section-content">
+                    <div class="legend-grid">
+                        <div class="legend-item"><span class="legend-dot dot-class"></span><span>Classroom</span></div>
+                        <div class="legend-item"><span class="legend-dot dot-lab"></span><span>Laboratory</span></div>
+                        <div class="legend-item"><span class="legend-dot dot-dept"></span><span>Admin / Section</span></div>
+                        <div class="legend-item"><span class="legend-dot dot-staff"></span><span>Faculty / Staff</span></div>
+                        <div class="legend-item"><span class="legend-dot dot-special"></span><span>Special Rooms</span></div>
+                        <div class="legend-item"><span class="legend-dot dot-lift"></span><span>Elevators</span></div>
+                        <div class="legend-item"><span class="legend-dot dot-utility"></span><span>Washrooms</span></div>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
+        <!-- 3D / 2D Interactive Viewport -->
+        <main class="viewport-container">
+            <!-- Canvas -->
+            <div id="canvas-container"></div>
+
+            <!-- Humanized Clean Room Card Popup -->
+            <div id="room-popup" class="room-popup" style="display: none;">
+                <div class="popup-card-inner">
+                    <div class="popup-header">
+                        <span id="popup-room-badge" class="popup-category-badge">CLASSROOM</span>
+                        <button id="popup-close" class="popup-close-btn" title="Close info">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6 6 18"></path>
+                                <path d="m6 6 12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <h4 id="popup-room-name" class="popup-title">Room 017</h4>
+                    <p id="popup-room-desc" class="popup-description">Classroom</p>
+                    
+                    <div class="popup-location-meta">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span id="popup-room-floor">A-Block, Ground Floor</span>
+                    </div>
+
+                    <div class="popup-actions-grid">
+                        <button id="popup-set-start" class="btn-popup-start">
+                            <span class="btn-dot dot-start"></span>
+                            <span>Set Start</span>
+                        </button>
+                        <button id="popup-set-dest" class="btn-popup-dest">
+                            <span class="btn-dot dot-dest"></span>
+                            <span>Directions</span>
+                        </button>
+                        <button id="popup-btn-info" class="btn-popup-info">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <span>Info</span>
+                        </button>
+                        <button id="popup-btn-faculty" class="btn-popup-faculty">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>Faculty</span>
+                        </button>
+                    </div>
+
+                    <!-- Room Popup Tab Details View -->
+                    <div id="popup-tab-content" class="popup-tab-content" style="display: none;">
+                        <div id="popup-info-view" class="tab-pane" style="display: none;">
+                            <div class="tab-pane-header">
+                                <span>Room Information</span>
+                                <span id="popup-info-type-tag" class="faculty-badge">GENERAL</span>
+                            </div>
+                            <div id="popup-info-details" class="tab-pane-body">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+                        <div id="popup-faculty-view" class="tab-pane" style="display: none;">
+                            <div class="tab-pane-header">
+                                <span>Faculty In Location</span>
+                                <span id="popup-faculty-count-badge" class="faculty-badge">0 Found</span>
+                            </div>
+                            <div id="popup-faculty-details" class="tab-pane-body">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating Navigation Controls -->
+            <div class="floating-controls">
+                <div class="floor-switcher-container">
+                    <button id="floor-switcher-btn" class="map-ctrl-btn floor-badge-float" title="Switch Floor">
+                        <span id="float-floor-indicator">0F</span>
+                    </button>
+                    <div id="floor-switcher-dropdown" class="floor-dropdown-menu float-menu">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+                
+                <div class="map-ctrl-group">
+                    <button id="reset-view-btn" class="map-ctrl-btn" title="Reset Top View">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                        </svg>
+                    </button>
+                    <button id="zoom-in-btn" class="map-ctrl-btn" title="Zoom In (+)">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" x2="12" y1="5" y2="19"></line>
+                            <line x1="5" x2="19" y1="12" y2="12"></line>
+                        </svg>
+                    </button>
+                    <button id="zoom-out-btn" class="map-ctrl-btn" title="Zoom Out (−)">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" x2="19" y1="12" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="indoor-viewer.js"></script>
+    <script>
+        function toggleSection(id) {
+            const el = document.getElementById(id);
+            const icon = el.previousElementSibling.querySelector('.toggle-icon');
+            if (el.style.display === 'none') {
+                el.style.display = 'block';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                el.style.display = 'none';
+                icon.style.transform = 'rotate(-90deg)';
+            }
+        }
+    </script>
+</body>
+</html>

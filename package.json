@@ -8,7 +8,8 @@
     "start": "node src/server.js",
     "dev": "node src/server.js",
     "import": "node src/scripts/importGeoJSON.js",
-    "validate:db": "node src/scripts/validateDB.js"
+    "validate:db": "node src/scripts/validateDB.js",
+    "seed:faculty": "node src/scripts/seedFaculty.js"
   },
   "keywords": [
     "dishaa",
