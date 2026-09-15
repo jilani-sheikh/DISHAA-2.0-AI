@@ -128,6 +128,9 @@ export function FacultyPortal({ onBack }: FacultyPortalProps) {
       if (res.success && res.faculty) {
         setCurrentFaculty(res.faculty);
         localStorage.setItem('dishaa_faculty_user', JSON.stringify(res.faculty));
+        if (res.token) {
+          localStorage.setItem('dishaa_faculty_token', res.token);
+        }
         setActiveTab('dashboard');
       }
     } catch (err: unknown) {
@@ -167,6 +170,9 @@ export function FacultyPortal({ onBack }: FacultyPortalProps) {
         setRegSuccess('Registration successful! Profile registered to campus directory.');
         setCurrentFaculty(res.faculty);
         localStorage.setItem('dishaa_faculty_user', JSON.stringify(res.faculty));
+        if (res.token) {
+          localStorage.setItem('dishaa_faculty_token', res.token);
+        }
         loadFaculties();
         setTimeout(() => {
           setActiveTab('dashboard');
@@ -200,13 +206,18 @@ export function FacultyPortal({ onBack }: FacultyPortalProps) {
     setIsUpdating(true);
     setUpdateMsg(null);
     try {
-      const res = await facultyApi.update(currentFaculty._id, {
-        designation: editDesignation,
-        phone: editPhone,
-        block: editBlock,
-        floor: Number(editFloor),
-        roomNo: editRoomNo,
-      });
+      const token = localStorage.getItem('dishaa_faculty_token');
+      const res = await facultyApi.update(
+        currentFaculty._id,
+        {
+          designation: editDesignation,
+          phone: editPhone,
+          block: editBlock,
+          floor: Number(editFloor),
+          roomNo: editRoomNo,
+        },
+        token
+      );
 
       if (res.success && res.faculty) {
         setCurrentFaculty(res.faculty);
@@ -226,6 +237,7 @@ export function FacultyPortal({ onBack }: FacultyPortalProps) {
   // Handle Logout
   const handleLogout = () => {
     localStorage.removeItem('dishaa_faculty_user');
+    localStorage.removeItem('dishaa_faculty_token');
     setCurrentFaculty(null);
     setActiveTab('directory');
   };

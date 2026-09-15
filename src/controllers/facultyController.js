@@ -1,18 +1,58 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const Faculty = require('../models/Faculty');
+const { generateToken } = require('../middleware/auth');
 
 /**
- * Format faculty document for safe client consumption
+ * Format faculty document for safe client consumption (never returns password)
  */
 const formatFaculty = (doc) => {
   if (!doc) return null;
-  const { password, __v, ...rest } = doc.toObject ? doc.toObject() : doc;
-  return rest;
+  const raw = doc.toObject ? doc.toObject() : doc;
+  const { password, __v, ...safe } = raw;
+  return safe;
+};
+
+/**
+ * Validation helpers
+ */
+const isValidEmail = (email) => {
+  return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+};
+
+const validateSittingLocation = (block, floor, roomNo) => {
+  if (!block || typeof block !== 'string') {
+    return 'Building block is required (e.g. BLOCK A, BLOCK B, BLOCK C).';
+  }
+  const cleanBlock = block.trim().toUpperCase();
+  if (!['BLOCK A', 'BLOCK B', 'BLOCK C'].includes(cleanBlock)) {
+    return 'Invalid block. Must be BLOCK A, BLOCK B, or BLOCK C.';
+  }
+
+  const numFloor = Number(floor);
+  if (isNaN(numFloor) || !Number.isInteger(numFloor)) {
+    return 'Floor must be a valid integer.';
+  }
+
+  if ((cleanBlock === 'BLOCK A' || cleanBlock === 'BLOCK C') && numFloor !== 0) {
+    return `${cleanBlock} only supports Ground Floor (Floor 0).`;
+  }
+
+  if (cleanBlock === 'BLOCK B' && (numFloor < 1 || numFloor > 4)) {
+    return 'BLOCK B supports Floors 1 through 4.';
+  }
+
+  if (!roomNo || typeof roomNo !== 'string' || !roomNo.trim()) {
+    return 'Room number is required (e.g. B-108, A-102, C-005).';
+  }
+
+  return null;
 };
 
 /**
  * GET /api/faculty
  * Retrieve faculties with optional filters (block, floor, roomNo, department, q)
+ * Never returns passwords.
  */
 const getFaculties = async (req, res) => {
   try {
@@ -100,7 +140,7 @@ const getFacultyById = async (req, res) => {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, error: 'Invalid faculty ID' });
+      return res.status(400).json({ success: false, error: 'Invalid faculty ID format' });
     }
 
     const faculty = await Faculty.findById(id).select('-password -__v').lean();
@@ -117,14 +157,14 @@ const getFacultyById = async (req, res) => {
 
 /**
  * POST /api/faculty
- * Handles both Faculty Login and Faculty Registration
+ * Handles both Faculty Login and Secure Faculty Registration
  */
 const handleFacultyAuth = async (req, res) => {
   try {
     const body = req.body || {};
     const { action = 'register', email, password } = body;
 
-    // 1. LOGIN
+    // ── 1. FACULTY LOGIN ────────────────────────────────────────────────────────
     if (action === 'login') {
       if (!email || !password) {
         return res.status(400).json({
@@ -133,71 +173,107 @@ const handleFacultyAuth = async (req, res) => {
         });
       }
 
-      const faculty = await Faculty.findOne({
-        email: email.trim().toLowerCase(),
-      });
+      const cleanEmail = email.trim().toLowerCase();
+      // Need password explicitly since select: false
+      const faculty = await Faculty.findOne({ email: cleanEmail }).select('+password');
 
       if (!faculty) {
         return res.status(401).json({
           success: false,
-          error: 'Invalid Email or Password. Please check your credentials.',
+          error: 'Invalid email or password. Please check your credentials.',
         });
       }
 
-      // Verify password (plain comparison or match)
-      if (faculty.password !== password.trim()) {
+      // Verify bcrypt password (or upgrade legacy plaintext password)
+      let isMatch = false;
+      if (faculty.password.startsWith('$2a$') || faculty.password.startsWith('$2b$')) {
+        isMatch = await bcrypt.compare(password.trim(), faculty.password);
+      } else {
+        // Legacy plaintext fallback
+        if (faculty.password === password.trim()) {
+          isMatch = true;
+          // Upgrade immediately to bcrypt
+          faculty.password = await bcrypt.hash(password.trim(), 10);
+          await faculty.save();
+        }
+      }
+
+      if (!isMatch) {
         return res.status(401).json({
           success: false,
-          error: 'Invalid Email or Password. Please check your credentials.',
+          error: 'Invalid email or password. Please check your credentials.',
         });
       }
 
+      const token = generateToken(faculty);
       const safeFaculty = formatFaculty(faculty);
+
       return res.status(200).json({
         success: true,
         message: 'Faculty login successful!',
+        token,
         faculty: safeFaculty,
       });
     }
 
-    // 2. REGISTRATION
+    // ── 2. FACULTY REGISTRATION ────────────────────────────────────────────────
     const { name, designation, department, phone, block, floor, roomNo, role } = body;
 
-    if (!name || !department || !email || !password || !block || floor === undefined || !roomNo) {
-      return res.status(400).json({
-        success: false,
-        error: 'Missing required fields (Name, Department, Email, Password, Block, Floor, Room No).',
-      });
+    // Field presence validation
+    if (!name || !name.trim()) {
+      return res.status(400).json({ success: false, error: 'Full name is required.' });
+    }
+    if (!department || !department.trim()) {
+      return res.status(400).json({ success: false, error: 'Department is required.' });
+    }
+    if (!email || !isValidEmail(email)) {
+      return res.status(400).json({ success: false, error: 'A valid email address is required.' });
+    }
+    if (!password || password.trim().length < 6) {
+      return res.status(400).json({ success: false, error: 'Password must be at least 6 characters long.' });
+    }
+
+    const locError = validateSittingLocation(block, floor, roomNo);
+    if (locError) {
+      return res.status(400).json({ success: false, error: locError });
     }
 
     const cleanEmail = email.trim().toLowerCase();
 
-    const facultyDoc = {
+    // Check if user already exists
+    const existing = await Faculty.findOne({ email: cleanEmail });
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        error: 'An account with this email already exists. Please sign in instead.',
+      });
+    }
+
+    // Secure password hashing
+    const hashedPassword = await bcrypt.hash(password.trim(), 10);
+
+    const faculty = await Faculty.create({
       name: name.trim(),
       designation: designation ? designation.trim() : 'Faculty Member',
       department: department.trim(),
       email: cleanEmail,
       phone: phone ? phone.trim() : '',
-      password: password.trim(),
+      password: hashedPassword,
       role: role === 'admin' ? 'admin' : 'faculty',
       sittingLocation: {
-        block: block.trim(),
+        block: block.trim().toUpperCase(),
         floor: Number(floor),
         roomNo: roomNo.trim(),
       },
-    };
+    });
 
-    const updated = await Faculty.findOneAndUpdate(
-      { email: cleanEmail },
-      { $set: facultyDoc },
-      { new: true, upsert: true, setDefaultsOnInsert: true }
-    );
+    const token = generateToken(faculty);
+    const safeFaculty = formatFaculty(faculty);
 
-    const safeFaculty = formatFaculty(updated);
-
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: 'Faculty account & sitting location registered successfully!',
+      token,
       faculty: safeFaculty,
     });
   } catch (err) {
@@ -211,32 +287,72 @@ const handleFacultyAuth = async (req, res) => {
 
 /**
  * PUT /api/faculty/:id
- * Update faculty details
+ * Protected: Requires authentication.
+ * A faculty member can modify ONLY their own profile, unless role is admin.
  */
 const updateFaculty = async (req, res) => {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, error: 'Invalid faculty ID' });
+      return res.status(400).json({ success: false, error: 'Invalid faculty ID format' });
+    }
+
+    const faculty = await Faculty.findById(id);
+    if (!faculty) {
+      return res.status(404).json({ success: false, error: 'Faculty member not found' });
+    }
+
+    // Authorization check: Self or Admin
+    const isSelf = req.user && req.user.id.toString() === faculty._id.toString();
+    const isAdmin = req.user && req.user.role === 'admin';
+
+    if (!isSelf && !isAdmin) {
+      return res.status(403).json({
+        success: false,
+        error: 'Forbidden: You are only authorized to modify your own profile.',
+      });
     }
 
     const updates = { ...req.body };
-    delete updates.password; // Do not update password via this route
     delete updates._id;
 
-    if (updates.sittingLocation) {
-      if (updates.sittingLocation.floor !== undefined) {
-        updates.sittingLocation.floor = Number(updates.sittingLocation.floor);
+    // If updating password, hash it securely
+    if (updates.password) {
+      if (updates.password.trim().length < 6) {
+        return res.status(400).json({ success: false, error: 'Password must be at least 6 characters long.' });
       }
+      updates.password = await bcrypt.hash(updates.password.trim(), 10);
+    }
+
+    // Sitting location validation if provided
+    if (updates.sittingLocation || updates.block || updates.floor !== undefined || updates.roomNo) {
+      const b = updates.sittingLocation?.block || updates.block || faculty.sittingLocation.block;
+      const f = updates.sittingLocation?.floor !== undefined ? updates.sittingLocation.floor : updates.floor !== undefined ? updates.floor : faculty.sittingLocation.floor;
+      const r = updates.sittingLocation?.roomNo || updates.roomNo || faculty.sittingLocation.roomNo;
+
+      const locError = validateSittingLocation(b, f, r);
+      if (locError) {
+        return res.status(400).json({ success: false, error: locError });
+      }
+
+      updates.sittingLocation = {
+        block: b.trim().toUpperCase(),
+        floor: Number(f),
+        roomNo: r.trim(),
+      };
+      delete updates.block;
+      delete updates.floor;
+      delete updates.roomNo;
+    }
+
+    // Only admin can change role
+    if (updates.role && !isAdmin) {
+      delete updates.role;
     }
 
     const updated = await Faculty.findByIdAndUpdate(id, { $set: updates }, { new: true })
       .select('-password -__v')
       .lean();
-
-    if (!updated) {
-      return res.status(404).json({ success: false, error: 'Faculty member not found' });
-    }
 
     return res.status(200).json({
       success: true,
@@ -250,43 +366,49 @@ const updateFaculty = async (req, res) => {
 };
 
 /**
- * DELETE /api/faculty/:id?
- * Delete a faculty entry by URL param, query id, or query email
+ * DELETE /api/faculty/:id
+ * Protected: Requires authentication.
+ * A faculty member can delete ONLY their own profile, unless role is admin.
  */
 const deleteFaculty = async (req, res) => {
   try {
     const id = req.params.id || req.query.id;
-    const email = req.query.email;
 
-    if (!id && !email) {
+    if (!id) {
       return res.status(400).json({
         success: false,
-        error: 'Faculty ID or Email is required for deletion.',
+        error: 'Faculty ID is required for deletion.',
       });
     }
 
-    let query = {};
-    if (id) {
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ success: false, error: 'Invalid faculty ID format' });
-      }
-      query = { _id: id };
-    } else if (email) {
-      query = { email: email.trim().toLowerCase() };
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, error: 'Invalid faculty ID format' });
     }
 
-    const result = await Faculty.deleteOne(query);
-
-    if (result.deletedCount === 0) {
+    const faculty = await Faculty.findById(id);
+    if (!faculty) {
       return res.status(404).json({
         success: false,
         error: 'Faculty record not found.',
       });
     }
 
+    // Authorization check: Self or Admin
+    const isSelf = req.user && req.user.id.toString() === faculty._id.toString();
+    const isAdmin = req.user && req.user.role === 'admin';
+
+    if (!isSelf && !isAdmin) {
+      return res.status(403).json({
+        success: false,
+        error: 'Forbidden: You are only authorized to delete your own profile.',
+      });
+    }
+
+    const result = await Faculty.deleteOne({ _id: id });
+
     return res.status(200).json({
       success: true,
-      message: 'Faculty record deleted successfully!',
+      message: 'Faculty profile deleted successfully!',
       deletedCount: result.deletedCount,
     });
   } catch (err) {

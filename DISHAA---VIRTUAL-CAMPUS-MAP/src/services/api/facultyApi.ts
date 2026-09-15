@@ -10,6 +10,7 @@ export interface FacultyListResponse {
 export interface FacultyAuthResponse {
   success: true;
   message: string;
+  token?: string;
   faculty: FacultyMember;
 }
 
@@ -57,15 +58,21 @@ export const facultyApi = {
       headers: { 'Content-Type': 'application/json' },
     }),
 
-  update: (id: string, payload: Partial<FacultyRegisterPayload>) =>
+  update: (id: string, payload: Partial<FacultyRegisterPayload>, token?: string | null) =>
     apiRequest<{ success: true; message: string; faculty: FacultyMember }>(`/faculty/${encodeURIComponent(id)}`, {
       method: 'PUT',
       body: payload,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
     }),
 
-  delete: (id: string) =>
+  delete: (id: string, token?: string | null) =>
     apiRequest<{ success: true; message: string; deletedCount: number }>(`/faculty/${encodeURIComponent(id)}`, {
       method: 'DELETE',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
     }),
 };

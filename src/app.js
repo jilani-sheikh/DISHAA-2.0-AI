@@ -14,7 +14,31 @@ const facultyRoutes = require('./routes/facultyRoutes');
 const app = express();
 
 // ─── Middleware ──────────────────────────────────────────────────────────────
-app.use(cors());
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map((o) => o.trim())
+  : null;
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow non-browser requests or same-origin without origin header
+    if (!origin) return callback(null, true);
+
+    if (!allowedOrigins || allowedOrigins.includes('*')) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`Not allowed by CORS: ${origin}`));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

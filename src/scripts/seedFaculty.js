@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+const bcrypt = require('bcryptjs');
 const Faculty = require('../models/Faculty');
 
 const initialFaculties = [
@@ -76,12 +77,24 @@ async function seed() {
   }
 
   for (const fac of initialFaculties) {
-    const existing = await Faculty.findOne({ email: fac.email });
+    const existing = await Faculty.findOne({ email: fac.email }).select('+password');
+    const hashedPassword = await bcrypt.hash(fac.password, 10);
+
     if (!existing) {
-      await Faculty.create(fac);
-      console.log(`Created faculty: ${fac.name}`);
+      await Faculty.create({
+        ...fac,
+        password: hashedPassword,
+      });
+      console.log(`Created faculty with hashed password: ${fac.name}`);
     } else {
-      console.log(`Faculty already exists: ${fac.name}`);
+      // If legacy unhashed password exists, upgrade it
+      if (!existing.password || (!existing.password.startsWith('$2a$') && !existing.password.startsWith('$2b$'))) {
+        existing.password = hashedPassword;
+        await existing.save();
+        console.log(`Upgraded existing faculty password to bcrypt: ${fac.name}`);
+      } else {
+        console.log(`Faculty already secured: ${fac.name}`);
+      }
     }
   }
 
