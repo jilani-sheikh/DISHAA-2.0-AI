@@ -10,6 +10,8 @@ const placeRoutes = require('./routes/placeRoutes');
 const navigationRoutes = require('./routes/navigationRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const facultyRoutes = require('./routes/facultyRoutes');
+const broadcastRoutes = require('./routes/broadcastRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 
 const app = express();
 
@@ -74,6 +76,8 @@ app.use('/api/places', placeRoutes);
 app.use('/api/navigation', navigationRoutes);
 app.use('/api/assistant', aiRoutes);
 app.use('/api/faculty', facultyRoutes);
+app.use('/api/broadcasts', broadcastRoutes);
+app.use('/api/events', eventRoutes);
 
 // ─── 404 Handler ────────────────────────────────────────────────────────────
 app.use((req, res) => {

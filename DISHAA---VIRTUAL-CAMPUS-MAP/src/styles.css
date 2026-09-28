@@ -997,3 +997,98 @@ body.dishaa-selecting .leaflet-container { cursor: crosshair; }
   font-weight: 700;
   color: #2563eb;
 }
+
+/* ─── UNIFIED DISHAA 2.0 WORKSPACE STYLES ─── */
+.dishaa-workspace-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background-color: #f8fafc;
+}
+
+.dishaa-feature-panel {
+  height: 100%;
+  padding: 10px;
+  background-color: #f8fafc;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: width 0.05s ease-out;
+}
+
+.dishaa-resizer-bar {
+  width: 10px;
+  height: 100%;
+  background: #e2e8f0;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 30;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.dishaa-resizer-bar:hover,
+.dishaa-resizer-bar:active {
+  background: #3b82f6;
+}
+
+.dishaa-resizer-bar .resizer-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dishaa-resizer-bar .resizer-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #94a3b8;
+}
+
+.dishaa-resizer-bar:hover .resizer-dot {
+  background: #ffffff;
+}
+
+.dishaa-map-workspace {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .dishaa-workspace-container {
+    flex-direction: column-reverse;
+  }
+
+  .dishaa-desktop-nav-rail {
+    display: none !important;
+  }
+
+  .dishaa-mobile-nav-bar {
+    display: flex !important;
+  }
+
+  .dishaa-resizer-bar {
+    display: none !important;
+  }
+
+  .dishaa-feature-panel {
+    width: 100% !important;
+    height: 48vh !important;
+    padding-bottom: 65px;
+  }
+
+  .dishaa-map-workspace {
+    height: 52vh !important;
+  }
+}
